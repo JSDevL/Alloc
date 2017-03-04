@@ -3,7 +3,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var {Route, Router, IndexRoute, hashHistory, Link} = require('react-router');
-var {Provider} = require('react-redux')
+var {Provider} = require('react-redux');
+
+var Login = require('Login')
 
 /*  bootstrap styles and third party global dependencies  */
 
@@ -28,6 +30,7 @@ class App extends React.Component{
             <div>
                 <ul>
                     <li><Link to="/">Building Prereqs</Link></li>
+                    <li><Link to="/login">Login</Link></li>
                 </ul>
                 {this.props.children}
             </div>
@@ -40,6 +43,7 @@ ReactDOM.render(
         <Router history={hashHistory}>
             <Route path="/" component={App}>
                 <IndexRoute component={Prereqs}></IndexRoute>
+                <Route path="/login" component={Login}></Route>
             </Route>
         </Router>
     </Provider>,
