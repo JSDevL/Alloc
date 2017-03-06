@@ -3,21 +3,19 @@ const axios = require('axios');
 const {connect} = require('react-redux');
 /* all actions needed */
 const actions = require('alertActions');
-Object.assign(actions, require('userActions'));
 
-class Login extends React.Component{
-    login(e){
+class Register extends React.Component{
+    register(e){
         e.preventDefault();
 
-        axios.post('/login', {
+        axios.post('/register', {
             userName: this.refs.userName.value,
-            password: this.refs.password.value
+            password: this.refs.password.value,
+            confirmPassword: this.refs.confirmPassword.value,
         })
         .then( (response)=>{
             /* Successfully logged in */
-            const user = response.data;
-            this.props.dispatch(actions.logIn(user));
-            this.props.dispatch(actions.setAlert(true, "logged in", "success"));
+            this.props.dispatch(actions.setAlert(true, response.data, "success"));
         })
         .catch( (error)=>{
             /* The request was made, but the server responded with a status code */
@@ -34,8 +32,10 @@ class Login extends React.Component{
                 <input type="text" ref="userName"></input>
                 <label>password</label>
                 <input type="password" ref="password"></input>
+                <label>confirm password</label>
+                <input type="password" ref="confirmPassword"></input>
 
-                <button onClick={(e)=>this.login(e)}>Login</button>
+                <button onClick={(e)=>this.register(e)}>Register</button>
             </form>
         </div>
     }
@@ -45,4 +45,4 @@ module.exports = connect((state)=>{
     return {
         alert: state.alert
     }
-})(Login);
+})(Register);

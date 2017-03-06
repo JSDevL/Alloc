@@ -1,40 +1,28 @@
 import React from 'react'
-var {connect} = require('react-redux');
-var actions = require('actions');
+const {connect} = require('react-redux');
 const axios = require('axios');
+/*  all required actions   */
+const actions = require('blocksActions');
+Object.assign(actions, require('alertActions'))
 
-/*  all child components   */
-const Alert = require('Alert');
-
-class BlockInput extends React.Component {
-    constructor(props){
-        super(props);
-
-        this.state = {
-            error: false,
-            errorMessage: ''
-        }
-    }
-
+class BlockInput extends React.Component{
     componentDidMount(){
-        // get initial blocks from DB
-        this.getBlocks();
-    }
-
-    componentDidUpdate(){
-        // empty input fields
-        this.refs.inputName.value = this.refs.inputTag.value = '';
-    }
-
-    getBlocks(){
+        /* get initial blocks from DB */
         axios.get("/blocks")
         .then( (response)=>{
             const allBlocks = response.data;
             this.props.dispatch(actions.getBlocks(allBlocks));
         })
         .catch( (error)=>{
-            this.setError(error.response.data);
+            /* The request was made, but the server responded with a status code */
+            /* that falls out of the range of 2xx */
+            this.props.dispatch(actions.setAlert(true, error.response.data, "danger"));
         });
+    }
+
+    componentDidUpdate(){
+        /* empty input fields */
+        this.refs.inputName.value = this.refs.inputTag.value = '';
     }
 
     postBlock(blockName, tag){
@@ -47,7 +35,9 @@ class BlockInput extends React.Component {
             this.props.dispatch(actions.addBlock(newBlock));
         })
         .catch( (error)=>{
-            this.setError(error.response.data);
+            /* The request was made, but the server responded with a status code */
+            /* that falls out of the range of 2xx */
+            this.props.dispatch(actions.setAlert(true, error.response.data, "danger"));
         });
     }
 
@@ -58,30 +48,13 @@ class BlockInput extends React.Component {
             this.props.dispatch(actions.deleteBlock(deleteID));
         })
         .catch( (error)=>{
-            this.setError(error.response.data);
+            /* The request was made, but the server responded with a status code */
+            /* that falls out of the range of 2xx */
+            this.props.dispatch(actions.setAlert(true, error.response.data, "danger"));
         });
     }
 
-    setError(errorMessage){
-        this.setState({
-            error: true,
-            errorMessage: errorMessage
-        })
-    }
-
-    reset(){
-        this.setState({
-            error: false,
-            errorMessage: ''
-        })
-    }
-
     render() {
-        let printError = ()=>{
-            if(this.state.error){
-                return <Alert onReset={()=>this.reset()}>{this.state.errorMessage}</Alert>
-            }
-        }
         return (
             <div>
                 <h4>Enter Blocks</h4>
@@ -102,32 +75,19 @@ class BlockInput extends React.Component {
                                         <td>{block._id}</td>
                                         <td>{block.blockName}</td>
                                         <td>{block.tag}</td>
-                                        <td>
-                                            <button className="btn" onClick={ ()=>this.deleteBlock(block._id) }>Remove Block</button>
-                                        </td>
+                                        <td><button className="btn" onClick={ ()=>this.deleteBlock(block._id) }>Remove Block</button></td>
                                     </tr>
                                 )
                             })
                         }
                         <tr>
-                            <td>
-                            </td>
-                            <td>
-                                <input type="text" placeholder="Enter Name" ref="inputName"></input>
-                            </td>
-                            <td>
-                                <input type="text" placeholder="Enter Tag" ref="inputTag"></input>
-                            </td>
-                            <td>
-                                <button className="btn" onClick={ ()=>this.postBlock(this.refs.inputName.value, this.refs.inputTag.value) }>Add Block</button>
-                            </td>
+                            <td></td>
+                            <td><input type="text" placeholder="Enter Name" ref="inputName"></input></td>
+                            <td><input type="text" placeholder="Enter Tag" ref="inputTag"></input></td>
+                            <td><button className="btn" onClick={ ()=>this.postBlock(this.refs.inputName.value, this.refs.inputTag.value) }>Add Block</button></td>
                         </tr>
                     </tbody>
                 </table>
-
-                {
-                    printError()
-                }
             </div>
         );
     }
@@ -135,6 +95,7 @@ class BlockInput extends React.Component {
 
 module.exports = connect((state)=>{
     return {
-        blocks: state.blocks
+        blocks: state.blocks,
+        alert: state.alert
     }
 })(BlockInput);

@@ -1,6 +1,7 @@
 module.exports = {
     entry: [
         'script!jquery/dist/jquery.min.js',
+        'script!jquery.cookie/jquery.cookie.js',
         'script!bootstrap/dist/js/bootstrap.min.js',
         './app/app.jsx'
     ],

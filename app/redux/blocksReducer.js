@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-export var blocksReducer = function(blocks, action){
+module.exports = function(blocks, action){
     if(blocks==undefined){
         blocks = []
     }
