@@ -8,6 +8,9 @@ class Register extends React.Component{
     register(e){
         e.preventDefault();
 
+
+        //this.refs[err]
+
         axios.post('/register', {
             userName: this.refs.userName.value,
             password: this.refs.password.value,
@@ -21,7 +24,18 @@ class Register extends React.Component{
             /* The request was made, but the server responded with a status code */
             /* that falls out of the range of 2xx */
             let err = error.response.data;
-            this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+            if(err.errors){
+                let messages = [];
+                for( error in err.errors ){
+                    /* get all messages */
+                    messages.push( err.errors[error].message );
+                    /* add classes to input fields */
+                    $(this.refs[error]).addClass('bg-danger');
+                }
+                this.props.dispatch(actions.setAlert(true, messages.join('::'), "danger"));
+            } else {
+                this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+            }
         });
     }
 
@@ -29,9 +43,9 @@ class Register extends React.Component{
         return <div>
             <form>
                 <label>username</label>
-                <input type="text" ref="userName"></input>
+                <input type="text" ref="userName" onChange={()=>$(this.refs.userName).removeClass('bg-danger')}></input>
                 <label>password</label>
-                <input type="password" ref="password"></input>
+                <input type="password" ref="password" onChange={()=>$(this.refs.password).removeClass('bg-danger')}></input>
                 <label>confirm password</label>
                 <input type="password" ref="confirmPassword"></input>
 

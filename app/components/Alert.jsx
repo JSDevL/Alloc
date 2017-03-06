@@ -16,7 +16,13 @@ class Alert extends React.Component{
     render(){
         if(this.props.alert.show){
             return <div className={`alert alert-${this.props.alert.style} alert-dismissible`} role="alert" ref="alert">
-                <strong>{this.props.alert.message}</strong>
+                {
+                    this.props.alert.message.split('::').map(function(message, index){
+                        return <p key={index}>
+                            <strong>{message}</strong>
+                        </p>;
+                    })
+                }
             </div>
         } else {
             return <div></div>

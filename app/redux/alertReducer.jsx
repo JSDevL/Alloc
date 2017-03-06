@@ -22,6 +22,10 @@ module.exports = function(alert, action){
                 message: '',
                 style: ''
             }
+        // case "SET_FIELD_COLOR":
+        //     return {
+        //         type
+        //     }
         default:
             return alert
     }

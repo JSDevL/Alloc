@@ -12,3 +12,11 @@ export const resetAlert = function(){
         type: "RESET_ALERT"
     }
 }
+
+// export const setFieldColor = function(fields[], style){
+//     return{
+//         type:"SET_FIELD_COLOR",
+//         fields: fields[],
+//         style: style;
+//     }
+// }
