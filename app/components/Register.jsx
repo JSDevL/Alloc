@@ -8,22 +8,20 @@ class Register extends React.Component{
     register(e){
         e.preventDefault();
 
-
-        //this.refs[err]
-
         axios.post('/register', {
             userName: this.refs.userName.value,
             password: this.refs.password.value,
             confirmPassword: this.refs.confirmPassword.value,
         })
         .then( (response)=>{
-            /* Successfully logged in */
-            this.props.dispatch(actions.setAlert(true, response.data, "success"));
+            /* Successfully registered */
+            this.props.dispatch(actions.setAlert(true, "Successfully Registered", "success"));
         })
         .catch( (error)=>{
             /* The request was made, but the server responded with a status code */
             /* that falls out of the range of 2xx */
             let err = error.response.data;
+            /* if err object contains validation errors */
             if(err.errors){
                 let messages = [];
                 for( error in err.errors ){
@@ -39,15 +37,19 @@ class Register extends React.Component{
         });
     }
 
+    resetInput(event) {
+        $(event.target).removeClass('bg-danger');
+    }
+
     render(){
         return <div>
             <form>
                 <label>username</label>
-                <input type="text" ref="userName" onChange={()=>$(this.refs.userName).removeClass('bg-danger')}></input>
+                <input type="text" ref="userName" onChange={this.resetInput}></input>
                 <label>password</label>
-                <input type="password" ref="password" onChange={()=>$(this.refs.password).removeClass('bg-danger')}></input>
+                <input type="password" ref="password" onChange={this.resetInput}></input>
                 <label>confirm password</label>
-                <input type="password" ref="confirmPassword"></input>
+                <input type="password" ref="confirmPassword" onChange={this.resetInput}></input>
 
                 <button onClick={(e)=>this.register(e)}>Register</button>
             </form>
