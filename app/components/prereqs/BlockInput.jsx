@@ -3,7 +3,9 @@ const {connect} = require('react-redux');
 const axios = require('axios');
 /*  all required actions   */
 const actions = require('blocksActions');
-Object.assign(actions, require('alertActions'))
+Object.assign(actions, require('alertActions'));
+/* all child Components */
+const FloorInput = require('./FloorInput.jsx');
 
 class BlockInput extends React.Component{
     componentDidMount(){
@@ -45,7 +47,7 @@ class BlockInput extends React.Component{
                     /* get all messages */
                     messages.push( err.errors[error].message );
                     /* add classes to input fields */
-                    $(this.refs[error]).addClass('bg-danger');
+                    $(this.refs[err.errors[error].path]).addClass('bg-danger');
                 }
                 this.props.dispatch(actions.setAlert(true, messages.join('::'), "danger"));
             } else {
@@ -107,6 +109,13 @@ class BlockInput extends React.Component{
                         </tr>
                     </tbody>
                 </table>
+
+                {
+
+                    this.props.blocks.map(function(block){
+                        return <FloorInput key={block._id} block={block}/>
+                    })
+                }
             </div>
         );
     }

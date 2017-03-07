@@ -12,6 +12,13 @@ export const addBlock = function(block){
     }
 }
 
+export const updateBlock = function(updatedBlock){
+    return {
+        type: "UPDATE_BLOCK",
+        updatedBlock: updatedBlock
+    }
+}
+
 export const deleteBlock = function(_id){
     return {
         type: "DELETE_BLOCK",

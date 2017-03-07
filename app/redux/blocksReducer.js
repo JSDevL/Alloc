@@ -15,6 +15,13 @@ module.exports = function(blocks, action){
                 action.block
             ];
 
+        case "UPDATE_BLOCK":
+            return blocks.map( function(block){
+                if(block._id == action.updatedBlock._id)
+                    return action.updatedBlock
+                return block;
+            });
+
         case "DELETE_BLOCK":
             return _.reject(blocks, function(block){
                 return block._id === action._id
