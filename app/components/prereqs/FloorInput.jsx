@@ -23,7 +23,6 @@ class FloorInput extends React.Component{
             let err = error.response.data;
             /* if err object contains validation errors */
             if(err.errors){
-                console.log(err.errors);
                 let messages = [];
                 for( error in err.errors ){
                     /* get all messages */
