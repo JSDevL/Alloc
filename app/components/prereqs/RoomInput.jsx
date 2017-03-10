@@ -19,6 +19,7 @@ class RoomInput extends React.Component{
         /* get initial rooms from DB */
 		axios.get(`/blocks/${this.props.block._id}/floors/${this.props.floor._id}/rooms`).then( (response)=>{
 			const allRooms = response.data;
+			console.log(allRooms);
 			this.setState({
 				rooms: allRooms
 			});
@@ -37,6 +38,7 @@ class RoomInput extends React.Component{
 			benches: this.refs.benches.value
 		}).then( (response)=>{
 			const newRoom = response.data;
+			console.log(newRoom);
 			this.setState({
 				rooms: [
 					...this.state.rooms,
@@ -110,7 +112,7 @@ class RoomInput extends React.Component{
                                     <td>{room._id}</td>
                                     <td>{room.number}</td>
 									<td>{room.benches}</td>
-                                    <td><button className="btn">Remove Floor</button></td>
+                                    <td><button className="btn">Remove Room</button></td>
                                 </tr>
                             })
                         }
