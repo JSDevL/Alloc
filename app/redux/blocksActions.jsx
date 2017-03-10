@@ -1,12 +1,11 @@
 export const getBlocks = function(blocks){
-    return {
-        type: "GET_BLOCKS",
-        blocks: blocks
-    }
-}
+	return {
+		type: "GET_BLOCKS",
+		blocks: blocks
+	}}
 
 export const addBlock = function(block){
-    return {
+	return {
         type: "ADD_BLOCK",
         block: block
     }
