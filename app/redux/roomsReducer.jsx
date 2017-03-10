@@ -2,7 +2,7 @@ var _ = require('underscore');
 
 module.exports = function(rooms, action){
     if(rooms==undefined){
-        rooms = []
+        rooms = [];
     }
 
     switch(action.type){
@@ -14,13 +14,6 @@ module.exports = function(rooms, action){
                 ...rooms,
                 action.room
             ];
-
-        case "UPDATE_ROOM":
-            return rooms.map( function(room){
-                if(room._id == action.updatedRoom._id)
-                    return action.updatedRoom
-                return room;
-            });
 
         case "DELETE_ROOM":
             return _.reject(rooms, function(room){

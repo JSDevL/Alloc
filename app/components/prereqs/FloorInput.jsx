@@ -5,6 +5,9 @@ const axios = require('axios');
 const actions = require('blocksActions');
 Object.assign(actions, require('alertActions'))
 
+const RoomInput = require('./RoomInput.jsx');
+
+
 class FloorInput extends React.Component{
     postFloor(blockID){
         axios.post(`/blocks/${blockID}/floors`, {
@@ -42,7 +45,7 @@ class FloorInput extends React.Component{
         .then( (response)=>{
             const updatedBlock = response.data;
             this.props.dispatch(actions.updateBlock(updatedBlock));
-            this.props.dispatch(actions.setAlert(true, "FLoor Deleted", "success"));
+            this.props.dispatch(actions.setAlert(true, "Floor Deleted", "success"));
         })
         .catch( (error)=>{
             /* The request was made, but the server responded with a status code */
@@ -54,13 +57,12 @@ class FloorInput extends React.Component{
 
     resetInput(event) {
         $(event.target).removeClass('bg-danger');
-    }loor
+    }
 
     render() {
         const block = this.props.block;
         return (
             <div>
-
                 <h4>Enter Floors for Block {block.blockName}</h4>
                 <table className="table table-bordered table-striped">
                     <thead>
@@ -87,6 +89,11 @@ class FloorInput extends React.Component{
                         </tr>
                     </tbody>
                 </table>
+				{
+                    this.props.block.floors.map(function(floor){
+						return <RoomInput key={floor._id} floor={floor} block={block}/>;
+                    })
+                }
             </div>
         );
     }

@@ -2,7 +2,7 @@ var _ = require('underscore');
 
 module.exports = function(blocks, action){
     if(blocks==undefined){
-        blocks = []
+        blocks = [];
     }
 
     switch(action.type){
