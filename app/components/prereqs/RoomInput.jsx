@@ -69,19 +69,18 @@ class RoomInput extends React.Component{
 		});
 	}
 
-	// deleteRoom(_id){
-	// 	axios.delete(`rooms/${_id}`)
-	// 	.then( (response)=>{
-	// 		const deleteID = response.data;
-	// 		this.props.dispatch(actions.deleteRoom(deleteID));
-	// 		this.props.dispatch(actions.setAlert(true, "Room Deleted", "success"));
-	// 	}).catch( (error)=>{
-    //         /* The request was made, but the server responded with a status code */
-    //         /* that falls out of the range of 2xx */
-	// 		let err = error.response.data;
-	// 		this.props.dispatch(actions.setAlert(true, err.message, "danger"));
-	// 	});
-	// }
+	deleteRoom(roomID){
+		axios.delete(`/blocks/${this.props.block._id}/floors/${this.props.floor._id}/rooms/${roomID}/`)
+		.then( (response)=>{
+			const deleteID = response.data;
+			this.props.dispatch(actions.setAlert(true, "Room Deleted", "success"));
+		}).catch( (error)=>{
+            /* The request was made, but the server responded with a status code */
+            /* that falls out of the range of 2xx */
+			let err = error.response.data;
+			this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+		});
+	}
 
 	resetInput(event) {
 		$(event.target).removeClass("bg-danger");
@@ -112,7 +111,7 @@ class RoomInput extends React.Component{
                                     <td>{room._id}</td>
                                     <td>{room.number}</td>
 									<td>{room.benches}</td>
-                                    <td><button className="btn">Remove Room</button></td>
+                                    <td><button className="btn" onClick={()=>this.deleteRoom(room._id)}>Remove Room</button></td>
                                 </tr>
                             })
                         }
