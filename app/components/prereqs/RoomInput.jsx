@@ -2,18 +2,26 @@ import React from "react";
 const {connect} = require("react-redux");
 const axios = require("axios");
 /*  all required actions   */
-const actions = require("roomsActions");
-Object.assign(actions, require("alertActions"));
+const actions = require("alertActions");
 /* so we know jquery is used */
 const $ = $;
 
 
 class RoomInput extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			rooms: []
+		};
+	}
+
 	componentDidMount(){
         /* get initial rooms from DB */
-		axios.get("/rooms").then( (response)=>{
+		axios.get(`/blocks/${this.props.block._id}/floors/${this.props.floor._id}/rooms`).then( (response)=>{
 			const allRooms = response.data;
-			this.props.dispatch(actions.getRooms(allRooms));
+			this.setState({
+				rooms: allRooms
+			});
 			this.props.dispatch(actions.setAlert(true, "Loaded", "success"));
 		}).catch( (error)=>{
             /* The request was made, but the server responded with a status code */
@@ -23,37 +31,41 @@ class RoomInput extends React.Component{
 		});
 	}
 
-	// postRoom(){
-	// 	axios.post("rooms", {
-	// 		number: this.refs.number.value,
-	// 		benches: this.refs.benches.value
-	// 	})
-	// 	.then( (response)=>{
-	// 		const newRoom = response.data;
-	// 		this.props.dispatch(actions.addRoom(newRoom));
-	// 		this.props.dispatch(actions.setAlert(true, "New Room created", "success"));
-	// 		/* reset input fields */
-	// 		this.refs.number.value = this.refs.benches.value = "";
-	// 	})
-	// 	.catch( (error)=>{
-	// 		/* The request was made, but the server responded with a status code */
-    //         /* that falls out of the range of 2xx */
-	// 		let err = error.response.data;
-    //         /* if err object contains validation errors */
-	// 		if(err.errors){
-	// 			let messages = [];
-	// 			for( error in err.errors ){
-    //                 /* get all messages */
-	// 				messages.push( err.errors[error].message );
-    //                 /* add classes to input fields */
-	// 				$(this.refs[err.errors[error].path]).addClass("bg-danger");
-	// 			}
-	// 			this.props.dispatch(actions.setAlert(true, messages.join("::"), "danger"));
-	// 		} else {
-	// 			this.props.dispatch(actions.setAlert(true, err.message, "danger"));
-	// 		}
-	// 	});
-	// }
+	postRoom(){
+		axios.post(`/blocks/${this.props.block._id}/floors/${this.props.floor._id}/rooms/`, {
+			number: this.refs.number.value,
+			benches: this.refs.benches.value
+		}).then( (response)=>{
+			const newRoom = response.data;
+			this.setState({
+				rooms: [
+					...this.state.rooms,
+					newRoom
+				]
+			});
+			this.props.dispatch(actions.setAlert(true, "New Room created", "success"));
+			/* reset input fields */
+			this.refs.number.value = this.refs.benches.value = "";
+		})
+		.catch( (error)=>{
+			/* The request was made, but the server responded with a status code */
+            /* that falls out of the range of 2xx */
+			let err = error.response.data;
+            /* if err object contains validation errors */
+			if(err.errors){
+				let messages = [];
+				for( error in err.errors ){
+                    /* get all messages */
+					messages.push( err.errors[error].message );
+                    /* add classes to input fields */
+					$(this.refs[err.errors[error].path]).addClass("bg-danger");
+				}
+				this.props.dispatch(actions.setAlert(true, messages.join("::"), "danger"));
+			} else {
+				this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+			}
+		});
+	}
 
 	// deleteRoom(_id){
 	// 	axios.delete(`rooms/${_id}`)
@@ -74,8 +86,11 @@ class RoomInput extends React.Component{
 	}
 
 	render(){
+		/* this is coming from redux */
 		const block = this.props.block;
 		const floor = this.props.floor;
+		/* this is coming from state */
+		const rooms = this.state.rooms;
 		return(
 			<div>
 				<h4>Enter Rooms for Floor {floor.number} of Block {block.blockName}</h4>
@@ -90,7 +105,7 @@ class RoomInput extends React.Component{
                     </thead>
                     <tbody>
                         {
-                            floor.rooms.map( (room)=>{
+                            rooms.map( (room)=>{
 								return <tr key={room._id}>
                                     <td>{room._id}</td>
                                     <td>{room.number}</td>
@@ -103,7 +118,7 @@ class RoomInput extends React.Component{
                             <td></td>
                             <td><input type="text" placeholder="Enter Room Number" ref="number"></input></td>
 							<td><input type="text" placeholder="Enter Bench Count" ref="benches"></input></td>
-                            <td><button className="btn">Add Room</button></td>
+                            <td><button className="btn" onClick={()=>this.postRoom()} >Add Room</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -114,7 +129,6 @@ class RoomInput extends React.Component{
 
 module.exports = connect((state)=>{
 	return {
-		rooms: state.rooms,
 		alert: state.alert
 	};
 })(RoomInput);
