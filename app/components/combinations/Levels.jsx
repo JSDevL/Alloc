@@ -41,6 +41,19 @@ class Levels extends React.Component{
 		});
 	}
 
+	removeCombi(combi){
+		// remove combi
+		axios.delete(`/combinations/${combi._id}`).then( (response)=>{
+			// to fill
+			const updatedCombis = response.data;
+			this.props.dispatch(actions.getCombis(updatedCombis));
+			this.props.dispatch(actions.setAlert(true, "updated", "success"));
+		}).catch( (error)=>{
+			let err = error.response.data;
+			this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+		});
+	}
+
 	render(){
 		return (
 			<div>
@@ -51,6 +64,7 @@ class Levels extends React.Component{
 							<th>ID</th>
 							<th>Combination</th>
 							<th>Conflicts</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -61,6 +75,7 @@ class Levels extends React.Component{
 										<td>{combi._id}</td>
 										<td>{combi.name}</td>
 										<td><Conflicts combi={combi}/></td>
+										<td><button className="btn" onClick={ ()=>this.removeCombi(combi) }>Remove</button></td>
 									</tr>;
 							})
 						}
