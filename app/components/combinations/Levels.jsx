@@ -20,7 +20,8 @@ class Levels extends React.Component{
 			this.props.dispatch(actions.addCombi(newCombi));
 			this.props.dispatch(actions.setAlert(true, "New Combi created", "success"));
             /* reset input fields */
-			this.refs.name.value = this.refs.duration.value = '';
+			this.refs.name.value = '';
+			this.refs.duration.value = '3';
 		}).catch( (error)=>{
             /* The request was made, but the server responded with a status code */
             /* that falls out of the range of 2xx */
@@ -85,7 +86,7 @@ class Levels extends React.Component{
 				<h4>New Combination</h4>
 				<form>
 					<label>Name</label><input type="text" ref="name"/>
-					<label>Duration</label><input type="text" ref="duration"/>
+					<label>Duration</label><input type="text" ref="duration" defaultValue="3"/>
 					<button className="btn" onClick={(e)=>this.addCombi(e)}>Add combination</button>
 				</form>
 			</div>
