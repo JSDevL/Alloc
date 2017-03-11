@@ -57,22 +57,22 @@ class Levels extends React.Component{
 
 	render(){
 		return (
-			<div>
-				<h4>Combinations for {this.props.level}</h4>
+			<div className="panel panel-default">
+				<div className="panel-heading">Combinations for {this.props.level}</div>
 
-				<form className="form-inline">
-					<div className="form-group">
-						<label>Name</label>
-						<input type="text" className="form-control" ref="name"/>
-					</div>
-					<div className="form-group">
-						<label>Duration</label>
-						<input type="text" className="form-control" ref="duration" defaultValue="3"/>
-					</div>
-					<button className="btn" onClick={(e)=>this.addCombi(e)}>Add combination</button>
-				</form>
-
-				<hr />
+				<div className="panel-body">
+					<form className="form-inline">
+						<div className="form-group">
+							<label>Name:</label>
+							<input type="text" className="form-control" ref="name"/>
+						</div>
+						<div className="form-group">
+							<label>Duration:</label>
+							<input type="text" className="form-control" ref="duration" defaultValue="3"/>
+						</div>
+						<button className="btn" onClick={(e)=>this.addCombi(e)}>Add combination</button>
+					</form>
+				</div>
 
 				<table className="table table-bordered table-striped">
 					<thead>

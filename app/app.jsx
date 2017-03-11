@@ -73,9 +73,9 @@ class App extends React.Component{
                     </div>
                 </nav>
 
-                {this.props.children}
-
                 <Alert/>
+
+                {this.props.children}
             </div>
         )
     }
