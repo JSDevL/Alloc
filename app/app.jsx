@@ -48,24 +48,30 @@ class App extends React.Component{
 
     render(){
         return(
-            <div>
-                <ul>
-                    <li><Link to="/">Building Prereqs</Link></li>
-                    <li><Link to="/combinations">Combinations</Link></li>
-                    <li><Link to="/register">Register</Link></li>
-                    <li><Link to="/login">Login</Link></li>
-                    {
-                        (()=>{
-                            if(this.props.user.loggedIn){
-                                return <li>
-                                    <Link to="/login" onClick={()=>this.logOut()}>Logout</Link>
-                                </li>
-                            } else {
-                                return <li></li>
+            <div className="container-fluid">
+                <nav className="navbar navbar-default">
+                    <div className="container-fluid">
+                        <ul className="nav navbar-nav">
+                            <li><Link to="/">Building Prereqs</Link></li>
+                            <li><Link to="/combinations">Combinations</Link></li>
+                        </ul>
+                        <ul className="nav navbar-nav navbar-right">
+                            <li><Link to="/register">Register</Link></li>
+                            <li><Link to="/login">Login</Link></li>
+                            {
+                                (()=>{
+                                    if(this.props.user.loggedIn){
+                                        return <li>
+                                            <Link to="/login" onClick={()=>this.logOut()}>Logout</Link>
+                                        </li>
+                                    } else {
+                                        return <li></li>
+                                    }
+                                })()
                             }
-                        })()
-                    }
-                </ul>
+                        </ul>
+                    </div>
+                </nav>
 
                 {this.props.children}
 

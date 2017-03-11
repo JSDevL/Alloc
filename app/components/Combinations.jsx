@@ -25,12 +25,12 @@ class Combinations extends React.Component{
 	render(){
 		return (
 			<div>
-				<h1>Combinations section</h1>;
+				<div className="page-header">
+					<h1>Combinations</h1>
+				</div>
+				
 				<Levels level="UG"/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
+				<hr />
 				<Levels level="PG"/>
 			</div>
 		);

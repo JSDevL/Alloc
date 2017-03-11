@@ -58,15 +58,36 @@ class Levels extends React.Component{
 	render(){
 		return (
 			<div>
-				<h4>Enter combinations for {this.props.level}</h4>
+				<h4>Combinations for {this.props.level}</h4>
+
+				<form className="form-inline">
+					<div className="form-group">
+						<label>Name</label>
+						<input type="text" className="form-control" ref="name"/>
+					</div>
+					<div className="form-group">
+						<label>Duration</label>
+						<input type="text" className="form-control" ref="duration" defaultValue="3"/>
+					</div>
+					<button className="btn" onClick={(e)=>this.addCombi(e)}>Add combination</button>
+				</form>
+
+				<hr />
+
 				<table className="table table-bordered table-striped">
 					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Combination</th>
-							<th>Conflicts</th>
-							<th></th>
-						</tr>
+						{
+							( ()=>{
+								if( _.find(this.props.combinations, (combi)=>{ return combi.gradLevel === this.props.level }) ){
+									return <tr>
+										<th>ID</th>
+										<th>Name</th>
+										<th>Conflicts</th>
+										<th></th>
+									</tr>;
+								}
+							} )()
+						}
 					</thead>
 					<tbody>
 						{
@@ -82,13 +103,6 @@ class Levels extends React.Component{
 						}
 					</tbody>
 				</table>
-
-				<h4>New Combination</h4>
-				<form>
-					<label>Name</label><input type="text" ref="name"/>
-					<label>Duration</label><input type="text" ref="duration" defaultValue="3"/>
-					<button className="btn" onClick={(e)=>this.addCombi(e)}>Add combination</button>
-				</form>
 			</div>
 		);
 	}
