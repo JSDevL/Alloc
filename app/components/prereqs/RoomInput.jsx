@@ -5,7 +5,7 @@ const axios = require("axios");
 const actions = require("alertActions");
 /* so we know jquery is used */
 const $ = $;
-
+const _ = require("underscore");
 
 class RoomInput extends React.Component{
 	constructor(props){
@@ -19,7 +19,6 @@ class RoomInput extends React.Component{
         /* get initial rooms from DB */
 		axios.get(`/blocks/${this.props.block._id}/floors/${this.props.floor._id}/rooms`).then( (response)=>{
 			const allRooms = response.data;
-			console.log(allRooms);
 			this.setState({
 				rooms: allRooms
 			});
@@ -38,7 +37,6 @@ class RoomInput extends React.Component{
 			benches: this.refs.benches.value
 		}).then( (response)=>{
 			const newRoom = response.data;
-			console.log(newRoom);
 			this.setState({
 				rooms: [
 					...this.state.rooms,
@@ -72,7 +70,19 @@ class RoomInput extends React.Component{
 	deleteRoom(roomID){
 		axios.delete(`/blocks/${this.props.block._id}/floors/${this.props.floor._id}/rooms/${roomID}/`)
 		.then( (response)=>{
+			debugger;
 			const deleteID = response.data;
+			const rooms = _.reject(this.state.rooms, function(deleteID){
+				if( deleteID === this.state.room._id ) return this.state.room; });
+			
+			console.log(rooms);
+			// this.setState({
+				
+			// 	rooms: rooms
+			// });
+			// console.log(_.reject(this.state.rooms, function(deleteID){
+			// 		return deleteID === this.state.rooms._id; }));
+			
 			this.props.dispatch(actions.setAlert(true, "Room Deleted", "success"));
 		}).catch( (error)=>{
             /* The request was made, but the server responded with a status code */

@@ -12,7 +12,7 @@ Object.assign(actions, require('alertActions'));
 /*  store   */
 const store = require('store').configure();
 store.subscribe(()=>{
-    console.log(store.getState())
+    //console.log(store.getState())
 })
 
 /*  react components  */
