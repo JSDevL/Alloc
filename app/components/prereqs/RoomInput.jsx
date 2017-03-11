@@ -5,7 +5,7 @@ const axios = require("axios");
 const actions = require("alertActions");
 /* so we know jquery is used */
 const $ = $;
-
+const _ = require("underscore");
 
 class RoomInput extends React.Component{
 	constructor(props){
@@ -71,6 +71,12 @@ class RoomInput extends React.Component{
 		axios.delete(`/blocks/${this.props.block._id}/floors/${this.props.floor._id}/rooms/${roomID}/`)
 		.then( (response)=>{
 			const deleteID = response.data;
+			let updatedRooms = _.reject(this.state.rooms, function(room){
+				return room._id.toString() === deleteID.toString();
+			});
+			this.setState({
+				rooms: updatedRooms
+			});
 			this.props.dispatch(actions.setAlert(true, "Room Deleted", "success"));
 		}).catch( (error)=>{
             /* The request was made, but the server responded with a status code */
