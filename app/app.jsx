@@ -12,14 +12,15 @@ Object.assign(actions, require('alertActions'));
 /*  store   */
 const store = require('store').configure();
 store.subscribe(()=>{
-    console.log(store.getState())
-})
+    //console.log(store.getState())
+});
 
 /*  react components  */
 const Register = require('Register');
 const Login = require('Login');
 const Prereqs = require('Prereqs');
 const Alert = require('Alert');
+const Combinations = require('Combinations');
 
 class App extends React.Component{
     constructor(props){
@@ -50,6 +51,7 @@ class App extends React.Component{
             <div>
                 <ul>
                     <li><Link to="/">Building Prereqs</Link></li>
+                    <li><Link to="/combinations">Combinations</Link></li>
                     <li><Link to="/register">Register</Link></li>
                     <li><Link to="/login">Login</Link></li>
                     {
@@ -87,6 +89,7 @@ ReactDOM.render(
                 <IndexRoute component={Prereqs}></IndexRoute>
                 <Route path="/register" component={Register}></Route>
                 <Route path="/login" component={Login}></Route>
+                <Route path="/combinations" component={Combinations}></Route>
             </Route>
         </Router>
     </Provider>,
