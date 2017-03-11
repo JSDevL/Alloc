@@ -1,16 +1,18 @@
 const redux = require('redux');
-const blocksReducer = require('./blocksReducer');
 const alertReducer = require('./alertReducer');
 const userReducer = require('./userReducer');
+const blocksReducer = require('./blocksReducer');
+const combinationsReducer = require('./combinationsReducer');
 
 export var configure = () => {
-    var reducers = redux.combineReducers({
-        blocks: blocksReducer,
-        alert: alertReducer,
-        user: userReducer
-    });
+	var reducers = redux.combineReducers({
+		alert: alertReducer,
+		user: userReducer,
+		blocks: blocksReducer,
+		combinations: combinationsReducer
+	});
 
-    var store = redux.createStore(reducers);
+	var store = redux.createStore(reducers);
 
-    return store;
-}
+	return store;
+};
