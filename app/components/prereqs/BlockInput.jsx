@@ -48,7 +48,6 @@ class BlockInput extends React.Component{
                     messages.push( err.errors[error].message );
                     /* add classes to input fields */
                     $(this.refs[err.errors[error].path]).addClass('bg-danger');
-					console.log(this.refs[err.errors[error].path]);
                 }
                 this.props.dispatch(actions.setAlert(true, messages.join('::'), "danger"));
             } else {
