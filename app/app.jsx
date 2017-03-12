@@ -21,6 +21,7 @@ const Login = require('Login');
 const Prereqs = require('Prereqs');
 const Alert = require('Alert');
 const Combinations = require('Combinations');
+const Sessions = require('Sessions');
 
 class App extends React.Component{
     constructor(props){
@@ -52,16 +53,17 @@ class App extends React.Component{
                 <ul>
                     <li><Link to="/">Building Prereqs</Link></li>
                     <li><Link to="/combinations">Combinations</Link></li>
+					<li><Link to="/sessions">Sessions</Link></li>
                     <li><Link to="/register">Register</Link></li>
                     <li><Link to="/login">Login</Link></li>
                     {
                         (()=>{
-                            if(this.props.user.loggedIn){
-                                return <li>
+							if(this.props.user.loggedIn){
+								return <li>
                                     <Link to="/login" onClick={()=>this.logOut()}>Logout</Link>
-                                </li>
-                            } else {
-                                return <li></li>
+									</li>;
+								} else {
+								return <li></li>
                             }
                         })()
                     }
@@ -90,6 +92,7 @@ ReactDOM.render(
                 <Route path="/register" component={Register}></Route>
                 <Route path="/login" component={Login}></Route>
                 <Route path="/combinations" component={Combinations}></Route>
+				<Route path="/sessions" component={Sessions}></Route>
             </Route>
         </Router>
     </Provider>,

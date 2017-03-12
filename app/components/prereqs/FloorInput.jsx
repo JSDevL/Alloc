@@ -1,63 +1,63 @@
-import React from 'react'
+import React from 'react';
 const {connect} = require('react-redux');
 const axios = require('axios');
 /*  all required actions   */
 const actions = require('blocksActions');
-Object.assign(actions, require('alertActions'))
+Object.assign(actions, require('alertActions'));
 
 const RoomInput = require('./RoomInput.jsx');
 
 
 class FloorInput extends React.Component{
-    postFloor(blockID){
-        axios.post(`/blocks/${blockID}/floors`, {
-            number: this.refs.number.value
-        })
+	postFloor(blockID){
+		axios.post(`/blocks/${blockID}/floors`, {
+			number: this.refs.number.value
+		})
         .then( (response)=>{
-            const updatedBlock = response.data;
-            this.props.dispatch(actions.updateBlock(updatedBlock));
-            this.props.dispatch(actions.setAlert(true, "New Floor created", "success"));
+			const updatedBlock = response.data;
+			this.props.dispatch(actions.updateBlock(updatedBlock));
+			this.props.dispatch(actions.setAlert(true, "New Floor created", "success"));
             /* reset input fields */
-            this.refs.number.value = '';
-        })
+			this.refs.number.value = '';
+		})
         .catch( (error)=>{
             /* The request was made, but the server responded with a status code */
             /* that falls out of the range of 2xx */
-            let err = error.response.data;
+			let err = error.response.data;
             /* if err object contains validation errors */
-            if(err.errors){
-                let messages = [];
-                for( error in err.errors ){
+			if(err.errors){
+				let messages = [];
+				for( error in err.errors ){
                     /* get all messages */
-                    messages.push( err.errors[error].message );
+					messages.push( err.errors[error].message );
                     /* add classes to input fields */
-                    $(this.refs[err.errors[error].path]).addClass('bg-danger');
-                }
-                this.props.dispatch(actions.setAlert(true, messages.join('::'), "danger"));
-            } else {
-                this.props.dispatch(actions.setAlert(true, err.message, "danger"));
-            }
-        });
-    }
+					$(this.refs[err.errors[error].path]).addClass('bg-danger');
+				}
+				this.props.dispatch(actions.setAlert(true, messages.join('::'), "danger"));
+			} else {
+				this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+			}
+		});
+	}
 
-    deleteFloor(blockID, floorID){
-        axios.delete(`/blocks/${blockID}/floors/${floorID}`)
+	deleteFloor(blockID, floorID){
+		axios.delete(`/blocks/${blockID}/floors/${floorID}`)
         .then( (response)=>{
-            const updatedBlock = response.data;
-            this.props.dispatch(actions.updateBlock(updatedBlock));
-            this.props.dispatch(actions.setAlert(true, "Floor Deleted", "success"));
-        })
+			const updatedBlock = response.data;
+			this.props.dispatch(actions.updateBlock(updatedBlock));
+			this.props.dispatch(actions.setAlert(true, "Floor Deleted", "success"));
+		})
         .catch( (error)=>{
             /* The request was made, but the server responded with a status code */
             /* that falls out of the range of 2xx */
-            let err = error.response.data;
-            this.props.dispatch(actions.setAlert(true, err.message, "danger"));
-        });
-    }
+			let err = error.response.data;
+			this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+		});
+	}
 
-    resetInput(event) {
-        $(event.target).removeClass('bg-danger');
-    }
+	resetInput(event) {
+		$(event.target).removeClass('bg-danger');
+	}
 
     render() {
         const block = this.props.block;
@@ -100,7 +100,7 @@ class FloorInput extends React.Component{
 }
 
 module.exports = connect((state)=>{
-    return {
-        alert: state.alert
-    }
+	return {
+		alert: state.alert
+	}
 })(FloorInput);

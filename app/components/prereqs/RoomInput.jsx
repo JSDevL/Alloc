@@ -72,17 +72,12 @@ class RoomInput extends React.Component{
 		.then( (response)=>{
 			debugger;
 			const deleteID = response.data;
-			const rooms = _.reject(this.state.rooms, function(deleteID){
-				if( deleteID === this.state.room._id ) return this.state.room; });
-			
-			console.log(rooms);
-			// this.setState({
-				
-			// 	rooms: rooms
-			// });
-			// console.log(_.reject(this.state.rooms, function(deleteID){
-			// 		return deleteID === this.state.rooms._id; }));
-			
+			let updatedRooms = _.reject(this.state.rooms, function(room){
+				return room._id.toString() === deleteID.toString();
+			});
+			this.setState({
+				rooms: updatedRooms
+			});
 			this.props.dispatch(actions.setAlert(true, "Room Deleted", "success"));
 		}).catch( (error)=>{
             /* The request was made, but the server responded with a status code */
