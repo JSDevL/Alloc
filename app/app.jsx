@@ -14,10 +14,14 @@ const Alert = require('Alert');
 const Login = require('Login');
 const Home = require('Home');
 const Register = require('Register');
+/* prereqs */
 const Prereqs = require('Prereqs');
 const Benches = require('prereqs/Benches');
 const Combinations = require('prereqs/Combinations');
 const CombinationDetails = require('prereqs/CombinationDetails');
+/* sessions */
+const Sessions = require('Sessions');
+const SessionInputs = require('sessions/SessionInputs');
 
 /*  store   */
 const store = require('store').configure();
@@ -47,6 +51,9 @@ ReactDOM.render(
                     <IndexRoute component={Benches}></IndexRoute>
                     <Route path="combinations" component={Combinations}></Route>
                     <Route path="combination-details" component={CombinationDetails}></Route>
+                </Route>
+                <Route path="sessions" component={Sessions}>
+                    <IndexRoute component={SessionInputs}></IndexRoute>
                 </Route>
             </Route>
         </Router>
