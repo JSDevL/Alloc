@@ -117,8 +117,8 @@ class RoomInput extends React.Component{
                                     <td>{room.number}</td>
 									<td>{room.benches}</td>
                                     <td><button className="btn" onClick={()=>this.deleteRoom(room._id)}>Remove Room</button></td>
-                                </tr>
-                            })
+                                </tr>;
+							})
                         }
                         <tr>
                             <td></td>

@@ -1,0 +1,13 @@
+#navigation-bar{
+	border-radius: 0px;
+	border-width: 0px;
+	margin-bottom: 0px;
+	
+	ul.nav{
+    	li{
+			a:hover{
+				background-color: $secondary-green;
+			}
+    	}
+	}
+}

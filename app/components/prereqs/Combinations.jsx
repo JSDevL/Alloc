@@ -5,6 +5,7 @@ const {connect} = require('react-redux');
 const actions = require('alertActions');
 Object.assign(actions, require('combinationsActions'));
 /* all child components */
+const Track = require('./Track.jsx');
 const Levels = require('./combinations/Levels.jsx');
 
 class Combinations extends React.Component{
@@ -17,20 +18,19 @@ class Combinations extends React.Component{
 		}).catch( (error)=>{
             /* The request was made, but the server responded with a status code */
             /* that falls out of the range of 2xx */
-			let err = error.response.data;
-			this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+			if(!error.response){
+				/* standard error occured */
+				return console.log(error);
+			}
 		});
 	}
 
 	render(){
 		return (
 			<div>
-				<h1>Combinations section</h1>;
+				<Track status={[0, 1, 0]}/>
 				<Levels level="UG"/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
+				<hr />
 				<Levels level="PG"/>
 			</div>
 		);

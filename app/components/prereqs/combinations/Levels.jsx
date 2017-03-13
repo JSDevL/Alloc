@@ -20,7 +20,8 @@ class Levels extends React.Component{
 			this.props.dispatch(actions.addCombi(newCombi));
 			this.props.dispatch(actions.setAlert(true, "New Combi created", "success"));
             /* reset input fields */
-			this.refs.name.value = this.refs.duration.value = '';
+			this.refs.name.value = '';
+			this.refs.duration.value = '3';
 		}).catch( (error)=>{
             /* The request was made, but the server responded with a status code */
             /* that falls out of the range of 2xx */
@@ -48,24 +49,42 @@ class Levels extends React.Component{
 			const updatedCombis = response.data;
 			this.props.dispatch(actions.getCombis(updatedCombis));
 			this.props.dispatch(actions.setAlert(true, "updated", "success"));
-		}).catch( (error)=>{
-			let err = error.response.data;
-			this.props.dispatch(actions.setAlert(true, err.message, "danger"));
 		});
 	}
 
 	render(){
 		return (
-			<div>
-				<h4>Enter combinations for {this.props.level}</h4>
-				<table className="table table-bordered table-striped">
+			<div className="panel panel-default">
+				<div className="panel-heading">Combinations for {this.props.level}</div>
+
+				<div className="panel-body">
+					<form className="form-inline">
+						<div className="form-group">
+							<label>Name:</label>
+							<input type="text" className="form-control" ref="name"/>
+						</div>
+						<div className="form-group">
+							<label>Duration:</label>
+							<input type="text" className="form-control" ref="duration" defaultValue="3"/>
+						</div>
+						<button className="btn" onClick={(e)=>this.addCombi(e)}>Add combination</button>
+					</form>
+				</div>
+
+				<table className="table table-bordered">
 					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Combination</th>
-							<th>Conflicts</th>
-							<th></th>
-						</tr>
+						{
+							( ()=>{
+								if( _.find(this.props.combinations, (combi)=>{ return combi.gradLevel === this.props.level }) ){
+									return <tr>
+										<th>ID</th>
+										<th>Name</th>
+										<th>Conflicts</th>
+										<th></th>
+									</tr>;
+								}
+							} )()
+						}
 					</thead>
 					<tbody>
 						{
@@ -81,13 +100,6 @@ class Levels extends React.Component{
 						}
 					</tbody>
 				</table>
-
-				<h4>New Combination</h4>
-				<form>
-					<label>Name</label><input type="text" ref="name"/>
-					<label>Duration</label><input type="text" ref="duration"/>
-					<button className="btn" onClick={(e)=>this.addCombi(e)}>Add combination</button>
-				</form>
 			</div>
 		);
 	}

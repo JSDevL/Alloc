@@ -5,7 +5,7 @@ const axios = require('axios');
 const actions = require('blocksActions');
 Object.assign(actions, require('alertActions'));
 
-const RoomInput = require('./RoomInput.jsx');
+const Rooms = require('./Rooms.jsx');
 
 
 class FloorInput extends React.Component{
@@ -91,7 +91,7 @@ class FloorInput extends React.Component{
                 </table>
 				{
                     this.props.block.floors.map(function(floor){
-						return <RoomInput key={floor._id} floor={floor} block={block}/>;
+						return <Rooms key={floor._id} floor={floor} block={block}/>;
                     })
                 }
             </div>
