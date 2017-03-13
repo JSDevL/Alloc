@@ -18,9 +18,6 @@ class Conflicts extends React.Component{
 			const updatedCombis = response.data;
 			this.props.dispatch(actions.getCombis(updatedCombis));
 			this.props.dispatch(actions.setAlert(true, "updated", "success"));
-		}).catch( (error)=>{
-			let err = error.response.data;
-			this.props.dispatch(actions.setAlert(true, err.message, "danger"));
 		});
 	}
 

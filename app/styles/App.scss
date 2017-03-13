@@ -1,0 +1,83 @@
+$site-bg: #fafafa;
+$primary-green: #5cb85c;
+$secondary-green: #449d44;
+
+body{
+	background: $site-bg;
+}
+
+.logo{
+	font-family: 'Pacifico', cursive;
+}
+
+.greened{
+	background-color: $primary-green;
+	color: white;
+
+	a{
+		color: white;
+	}
+}
+
+.jumbotron{
+	@extend .greened;
+	background-color: $secondary-green;
+}
+
+.progress{
+	height: 2px;
+	overflow: visible;
+
+	margin-top:50px;
+
+	.progress-bar{
+		position: relative;
+		text-align: left;
+		color: #777;
+
+		opacity: 0.3;
+
+		p{
+			position: absolute;
+			bottom: 0px;
+			white-space: nowrap;
+			font-size: 1.5rem;
+
+			span{
+				vertical-align: text-bottom;
+				padding: 3px 15px;
+			}
+
+			a{
+				text-decoration: none;
+				color: inherit;
+			}
+		}
+	}
+
+	.progress-bar.active{
+		opacity: 1;
+
+		p{
+			font-weight: bold;
+			color: $primary-green;
+
+			span{
+				background-color: $primary-green;
+			}
+		}
+	}
+}
+
+.progress-bar{
+	background-color: white;
+}
+
+.progress-bar-success {
+    background-color: #5cb85c;
+}
+
+@import 'Alert';
+@import 'Home';
+@import 'Login';
+@import 'NavigationBar';

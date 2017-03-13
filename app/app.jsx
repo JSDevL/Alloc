@@ -1,101 +1,53 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const {Route, Router, IndexRoute, hashHistory, Link} = require('react-router');
-const {Provider, connect} = require('react-redux');
+const {Provider} = require('react-redux');
+const {Route, Router, IndexRoute, hashHistory} = require('react-router');
+
 /*  bootstrap styles and third party global dependencies  */
 require('style!css!bootstrap/dist/css/bootstrap.min.css');
 require('script!underscore/underscore.js');
+/*  custom styles  */
+require('style!css!sass!./styles/App.scss');
 
-/*  all actions requried */
-const actions = require('userActions');
-Object.assign(actions, require('alertActions'));
+/*  react components  */
+const Alert = require('Alert');
+const Login = require('Login');
+const Home = require('Home');
+const Register = require('Register');
+const Prereqs = require('Prereqs');
+const Benches = require('prereqs/Benches');
+const Combinations = require('prereqs/Combinations');
+const CombinationDetails = require('prereqs/CombinationDetails');
+
 /*  store   */
 const store = require('store').configure();
 store.subscribe(()=>{
     //console.log(store.getState())
 });
 
-/*  react components  */
-const Register = require('Register');
-const Login = require('Login');
-const Prereqs = require('Prereqs');
-const Alert = require('Alert');
-const Combinations = require('Combinations');
-
 class App extends React.Component{
-    constructor(props){
-        super(props);
-
-        /* check token from cached cookie */
-        let _id = $.cookie('_id');
-        let userName = $.cookie('userName');
-        if(_id && userName)
-            this.props.dispatch(actions.logIn({
-                _id: _id,
-                userName: userName
-            }));
-    }
-
-    logOut(){
-        /* remove token from cached cookie */
-        $.removeCookie('token', { path: '/' });
-        $.removeCookie('_id', { path: '/' });
-        $.removeCookie('userName', { path: '/' });
-        /* Successfully logged out */
-        this.props.dispatch(actions.logOut());
-        this.props.dispatch(actions.setAlert(true, "Successfully logged out", "success"));
-    }
-
-    render(){
-        return(
-            <div className="container-fluid">
-                <nav className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <ul className="nav navbar-nav">
-                            <li><Link to="/">Building Prereqs</Link></li>
-                            <li><Link to="/combinations">Combinations</Link></li>
-                        </ul>
-                        <ul className="nav navbar-nav navbar-right">
-                            <li><Link to="/register">Register</Link></li>
-                            <li><Link to="/login">Login</Link></li>
-                            {
-                                (()=>{
-                                    if(this.props.user.loggedIn){
-                                        return <li>
-                                            <Link to="/login" onClick={()=>this.logOut()}>Logout</Link>
-                                        </li>
-                                    } else {
-                                        return <li></li>
-                                    }
-                                })()
-                            }
-                        </ul>
-                    </div>
-                </nav>
-
+	render(){
+		return(
+            <div>
                 <Alert/>
-
                 {this.props.children}
             </div>
-        )
-    }
+		);
+	}
 }
-
-App = connect((state)=>{
-    return {
-        user: state.user,
-        alert: state.alert
-    }
-})(App);
 
 ReactDOM.render(
     <Provider store={store}>
         <Router history={hashHistory}>
             <Route path="/" component={App}>
-                <IndexRoute component={Prereqs}></IndexRoute>
-                <Route path="/register" component={Register}></Route>
-                <Route path="/login" component={Login}></Route>
-                <Route path="/combinations" component={Combinations}></Route>
+                <IndexRoute component={Login}></IndexRoute>
+                <Route path="home" component={Home}></Route>
+                <Route path="register" component={Register}></Route>
+                <Route path="prereqs" component={Prereqs}>
+                    <IndexRoute component={Benches}></IndexRoute>
+                    <Route path="combinations" component={Combinations}></Route>
+                    <Route path="combination-details" component={CombinationDetails}></Route>
+                </Route>
             </Route>
         </Router>
     </Provider>,

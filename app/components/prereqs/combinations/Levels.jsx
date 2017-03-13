@@ -49,9 +49,6 @@ class Levels extends React.Component{
 			const updatedCombis = response.data;
 			this.props.dispatch(actions.getCombis(updatedCombis));
 			this.props.dispatch(actions.setAlert(true, "updated", "success"));
-		}).catch( (error)=>{
-			let err = error.response.data;
-			this.props.dispatch(actions.setAlert(true, err.message, "danger"));
 		});
 	}
 
@@ -74,7 +71,7 @@ class Levels extends React.Component{
 					</form>
 				</div>
 
-				<table className="table table-bordered table-striped">
+				<table className="table table-bordered">
 					<thead>
 						{
 							( ()=>{
