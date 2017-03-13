@@ -19,23 +19,32 @@ class Inputs extends React.Component{
 			/* dispatch updated */
 			this.props.dispatch(actions.getSessions(this.props.sessions));
 			this.props.dispatch(actions.setAlert(true, "Session added", "success"));
+
+			_.each(this.refs, (ref, key)=>{ ref.value = '' });
 		}).catch( (error)=>{
-			/* The request was made, but the server responded with a status code */
-            /* that falls out of the range of 2xx */
-			let err = error.response.data;
-            /* if err object contains validation errors */
-			if(err.errors){
+			/* The request was made, but the server responded with a status code that falls out of the range of 2xx */
+			if( error.response.data.errors ){
 				let messages = [];
-				for( error in err.errors ){
-                    /* get all messages */
-					messages.push( err.errors[error].message );
-                    /* add classes to input fields */
-					$(this.refs[err.errors[error].path]).addClass('bg-danger');
-				}
+				_.each(error.response.data.errors, (error, key)=>{
+					messages.push( error.message );
+					$(this.refs[ error.path ]).addClass('greened');
+				});
 				this.props.dispatch(actions.setAlert(true, messages.join('::'), "danger"));
-			} else {
-				this.props.dispatch(actions.setAlert(true, err.message, "danger"));
+			} else if( error.response.data.message ) {
+				this.props.dispatch(actions.setAlert(true, error.response.data.message, "danger"));
 			}
+		});
+	}
+
+	removeSession(e, session){
+		e.preventDefault();
+		axios.delete(`/sessions/${session._id}`).then( (response)=>{
+			const removed = response.data;
+			/* update current sessions */
+			let newSessions = _.reject(this.props.sessions, function(session){ return session._id.toString() === removed._id.toString() });
+			/* dispatch updated */
+			this.props.dispatch(actions.getSessions(newSessions));
+			this.props.dispatch(actions.setAlert(true, "Session updated", "success"));
 		});
 	}
 
@@ -62,7 +71,7 @@ class Inputs extends React.Component{
 									<td>{session.end}</td>
 									<td>
 										<div className="form-group">
-											<button className="btn btn-default">Remove Session</button>
+											<button className="btn btn-default" onClick={(e)=>this.removeSession(e, session)}>Remove Session</button>
 										</div>
 									</td>
 								</tr>;

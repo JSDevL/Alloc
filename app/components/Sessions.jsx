@@ -15,12 +15,8 @@ class Sessions extends React.Component{
 			this.props.dispatch(actions.getSessions(sessions));
 			this.props.dispatch(actions.setAlert(true, "Loaded", "success"));
 		}).catch( (error)=>{
-            /* The request was made, but the server responded with a status code */
-            /* that falls out of the range of 2xx */
-			if(!error.response){
-				/* standard error occured */
-				return console.log(error);
-			}
+			/* standard error occured */
+			return console.log(error);
 		});
 	}
 
