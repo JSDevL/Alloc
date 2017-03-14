@@ -22,6 +22,7 @@ const CombinationDetails = require('prereqs/CombinationDetails');
 /* sessions */
 const Sessions = require('Sessions');
 const SessionInputs = require('sessions/SessionInputs');
+const CombinationsToSessions = require('sessions/CombinationsToSessions');
 
 /*  store   */
 const store = require('store').configure();
@@ -54,6 +55,7 @@ ReactDOM.render(
                 </Route>
                 <Route path="sessions" component={Sessions}>
                     <IndexRoute component={SessionInputs}></IndexRoute>
+                    <Route path="combinations-to-sessions" component={CombinationsToSessions}></Route>
                 </Route>
             </Route>
         </Router>
