@@ -1,0 +1,17 @@
+.table{
+    margin: 0px;
+    thead, tbody{
+        tr{
+            th, td{
+            text-align: center;
+            vertical-align: middle;
+            }
+        }
+    }
+}
+.panel-heading{
+    padding: 0px;
+}
+.table-column{
+    width: 250px;
+}

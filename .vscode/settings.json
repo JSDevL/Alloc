@@ -9,5 +9,6 @@
         "f4769f9bdb7466be65088239c12046d1.eot": true,
         "fa2772327f55d8198301fdb8bcfc8158.woff": true,
         "public/": true
-    }
+    },
+    "eslint.enable": true
 }

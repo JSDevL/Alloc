@@ -8,13 +8,13 @@ Object.assign(actions, require('alertActions'));
 const Floors = require('./Floors.jsx');
 
 class BlockInput extends React.Component{
-    postBlock(){
-        axios.post('/blocks', {
-            blockName: this.refs.blockName.value,
-            tag: this.refs.tag.value
-        })
+	postBlock(){
+		axios.post('/blocks', {
+			blockName: this.refs.blockName.value,
+			tag: this.refs.tag.value
+		})
         .then( (response)=>{
-            const newBlock = response.data;
+			const newBlock = response.data;
             this.props.dispatch(actions.addBlock(newBlock));
             this.props.dispatch(actions.setAlert(true, "New Block created", "success"));
             /* reset input fields */
@@ -63,51 +63,59 @@ class BlockInput extends React.Component{
         return (
             <div>
                 <h4>Enter Blocks</h4>
+				{
+					this.props.blocks.map( (block)=>{
+						return <div key={block._id} className="panel-group" role="tablist">
+							<div className="panel panel-default">
+                                <div className="panel-heading" role="tab">
+									<h4 className="panel-title">
+										<table className="table table-bordered table-striped">
+											<thead>
+                                                <tr onClick={ ()=>$(`#${block._id}`).collapse('toggle') } >
+                                                    <th className="table-column">Id</th> 
+                                                    <th className="table-column">Block Name</th>
+                                                    <th className="table-column">Tag</th>
+                                                    <th className="table-column"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+												<tr onClick={ ()=>$(`#${block._id}`).collapse('toggle') } >
+													<td className="table-column">{block._id}</td>
+													<td className="table-column">{block.blockName}</td>
+													<td className="table-column">{block.tag}</td>
+													<td className="table-column"><button className="btn" onClick={ ()=>this.deleteBlock(block._id) }>Remove Block</button></td>
+												</tr>
+											</tbody>
+										</table>
+                                        <div id={block._id} className="panel-collapse collapse" role="tabpanel">
+                                            <div className="panel-body">
+                                                <Floors key={block._id} block={block}/>
+                                            </div>
+                                        </div>
+									</h4>
+								</div>
+							</div>
+						</div>;
+					} )
+				}
                 <table className="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Block Name</th>
-                            <th>Tag</th>
-                            <th></th>
-                        </tr>
-                    </thead>
                     <tbody>
-                        {
-                            this.props.blocks.map( (block)=>{
-                                return(
-                                    <tr key={block._id}>
-                                        <td>{block._id}</td>
-                                        <td>{block.blockName}</td>
-                                        <td>{block.tag}</td>
-                                        <td><button className="btn" onClick={ ()=>this.deleteBlock(block._id) }>Remove Block</button></td>
-                                    </tr>
-                                )
-                            })
-                        }
                         <tr>
-                            <td></td>
-                            <td><input type="text" placeholder="Enter Name" ref="blockName" onChange={this.resetInput}></input></td>
-                            <td><input type="text" placeholder="Enter Tag" ref="tag" onChange={this.resetInput}></input></td>
-                            <td><button className="btn" onClick={ ()=>this.postBlock() }>Add Block</button></td>
+                            <td className="table-column">Blocks :</td>
+                            <td className="table-column"><input type="text" placeholder="Enter Name" ref="blockName" onChange={this.resetInput}></input></td>
+                            <td className="table-column"><input type="text" placeholder="Enter Tag" ref="tag" onChange={this.resetInput}></input></td>
+                            <td className="table-column"><button className="btn" onClick={ ()=>this.postBlock() }>Add Block</button></td>
                         </tr>
                     </tbody>
                 </table>
-
-                {
-
-                    this.props.blocks.map(function(block){
-                        return <Floors key={block._id} block={block}/>
-                    })
-                }
             </div>
-        );
+        ); 
     }
 }
 
 module.exports = connect((state)=>{
-    return {
-        blocks: state.blocks,
-        alert: state.alert
-    }
+	return {
+		blocks: state.blocks,
+		alert: state.alert
+	};
 })(BlockInput);
