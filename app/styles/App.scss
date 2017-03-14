@@ -1,6 +1,7 @@
 $site-bg: #fafafa;
 $primary-green: #5cb85c;
 $secondary-green: #449d44;
+$complements-green: #f0ad4e;
 
 body{
 	background: $site-bg;
@@ -10,7 +11,7 @@ body{
 .logo{
 	font-family: 'Pacifico', cursive;
 }
-
+ 
 .greened{
 	background-color: $primary-green;
 	color: white;

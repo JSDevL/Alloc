@@ -55,6 +55,23 @@ class FloorInput extends React.Component{
 		});
 	}
 
+    onToggle(floorId){
+		var $clickedRow = $(`#${floorId}`);
+		$clickedRow.collapse('toggle');
+		// if( $(".floors").hasClass('greened') ){
+		// 	// remove greened from floors
+		// 	$(".floors").removeClass('greened');
+		// 	// add greened to rooms
+		// 	$(".rooms").addClass('greened');
+		// }
+		// else{
+		// 	// add greened to floors
+		// 	$(".floors").addClass('greened');
+		// 	// remove greened from rooms
+		// 	$(".rooms").removeClass('greened');
+		// }
+	}
+
 	resetInput(event) {
 		$(event.target).removeClass('bg-danger');
 	}
@@ -64,30 +81,43 @@ class FloorInput extends React.Component{
         return (
             <div>
                 <h4>Enter Floors for {block.blockName} Block</h4>
+
+                <table className="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <td className="table-column">Floor:</td>
+                            <td className="table-column"><input type="text" className="form-control" placeholder="Enter Floor Number" ref="number" onChange={this.resetInput}></input></td>
+                            <td className="table-column"><button className="btn" onClick={()=>this.postFloor(block._id)}>Add Floor</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr/>
+                
                 {
                     block.floors.map( (floor)=>{
                         return <div key={floor._id} className="panel-group" role="tablist">
 							<div className="panel panel-default">
                                 <div className="panel-heading" role="tab">
 									<h4 className="panel-title">
-										<table className="table table-bordered table-striped">
+										<table className="table table-bordered">
 											<thead>
-                                                <tr onClick={ ()=>$(`#${floor._id}`).collapse('toggle') } >
+                                                <tr>
                                                     <th className="table-column">Id</th>
                                                     <th className="table-column">Number</th>
                                                     <th className="table-column"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr onClick={ ()=>$(`#${floor._id}`).collapse('toggle') } >
+                                            <tbody className="floors" onClick={ ()=>this.onToggle(floor._id) }>
+                                                <tr>
                                                     <td className="table-column">{floor._id}</td>
                                                     <td className="table-column">{floor.number}</td>
-                                                    <td className="table-column"><button className="btn" onClick={ ()=>this.deleteFloor(block._id, floor._id) }>Remove Floor</button></td>
+                                                    <td className="table-column"><button className="btn btn-default" onClick={ ()=>this.deleteFloor(block._id, floor._id) }>Remove Floor</button></td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         <div id={floor._id} className="panel-collapse collapse" role="tabpanel">
-                                            <div className="panel-body">
+                                            <div className="panel-body floors">
                                                 <Rooms key={floor._id} floor={floor} block={block}/>
                                             </div>
                                         </div>
@@ -97,15 +127,6 @@ class FloorInput extends React.Component{
                         </div>;
                     })
                 }
-                <table className="table table-bordered table-striped">
-                    <tbody>
-                        <tr>
-                            <td className="table-column">Floors :</td>
-                            <td className="table-column"><input type="text" placeholder="Enter Floor Number" ref="number" onChange={this.resetInput}></input></td>
-                            <td className="table-column"><button className="btn" onClick={()=>this.postFloor(block._id)}>Add Floor</button></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         );
     }

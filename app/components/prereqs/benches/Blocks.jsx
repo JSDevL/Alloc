@@ -54,6 +54,23 @@ class BlockInput extends React.Component{
             this.props.dispatch(actions.setAlert(true, err.message, "danger"));
         });
     }
+	
+	onToggle(blockId){
+		var $clickedRow = $(`#${blockId}`);
+		$clickedRow.collapse('toggle');
+		// if( $(".blocks").hasClass('greened') ){
+		// 	// remove greened from blocks
+		// 	$(".blocks").removeClass('greened');
+		// 	// add greened to floors
+		// 	$(".floors").addClass('greened');
+		// }
+		// else{
+		// 	// add greened to blocks
+		// 	$(".blocks").addClass('greened');
+		// 	// remove greened from floors
+		// 	$(".floors").removeClass('greened');
+		// }
+	}
 
     resetInput(event) {
         $(event.target).removeClass('bg-danger');
@@ -63,32 +80,46 @@ class BlockInput extends React.Component{
         return (
             <div>
                 <h4>Enter Blocks</h4>
+
+                <table className="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <td className="table-column">Block:</td>
+                            <td className="table-column"><input type="text" className="form-control" placeholder="Enter Name" ref="blockName" onChange={this.resetInput}></input></td>
+                            <td className="table-column"><input type="text" className="form-control" placeholder="Enter Tag" ref="tag" onChange={this.resetInput}></input></td>
+                            <td className="table-column"><button className="btn" onClick={ ()=>this.postBlock() }>Add Block</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr/>
+
 				{
 					this.props.blocks.map( (block)=>{
-						return <div key={block._id} className="panel-group" role="tablist">
+						return <div key={block._id} className="blocks-panel panel-group" role="tablist">
 							<div className="panel panel-default">
                                 <div className="panel-heading" role="tab">
 									<h4 className="panel-title">
-										<table className="table table-bordered table-striped">
+										<table className="table table-bordered">
 											<thead>
-                                                <tr onClick={ ()=>$(`#${block._id}`).collapse('toggle') } >
+                                                <tr>
                                                     <th className="table-column">Id</th> 
                                                     <th className="table-column">Block Name</th>
                                                     <th className="table-column">Tag</th>
                                                     <th className="table-column"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-												<tr onClick={ ()=>$(`#${block._id}`).collapse('toggle') } >
+                                            <tbody className="blocks" onClick={ ()=>this.onToggle(block._id) }>
+												<tr>
 													<td className="table-column">{block._id}</td>
 													<td className="table-column">{block.blockName}</td>
 													<td className="table-column">{block.tag}</td>
-													<td className="table-column"><button className="btn" onClick={ ()=>this.deleteBlock(block._id) }>Remove Block</button></td>
+													<td className="table-column"><button className="btn btn-default" onClick={ ()=>this.deleteBlock(block._id) }>Remove Block</button></td>
 												</tr>
 											</tbody>
 										</table>
                                         <div id={block._id} className="panel-collapse collapse" role="tabpanel">
-                                            <div className="panel-body">
+                                            <div className="panel-body blocks">
                                                 <Floors key={block._id} block={block}/>
                                             </div>
                                         </div>
@@ -98,16 +129,6 @@ class BlockInput extends React.Component{
 						</div>;
 					} )
 				}
-                <table className="table table-bordered table-striped">
-                    <tbody>
-                        <tr>
-                            <td className="table-column">Blocks :</td>
-                            <td className="table-column"><input type="text" placeholder="Enter Name" ref="blockName" onChange={this.resetInput}></input></td>
-                            <td className="table-column"><input type="text" placeholder="Enter Tag" ref="tag" onChange={this.resetInput}></input></td>
-                            <td className="table-column"><button className="btn" onClick={ ()=>this.postBlock() }>Add Block</button></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         ); 
     }

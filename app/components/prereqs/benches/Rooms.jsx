@@ -100,34 +100,42 @@ class RoomInput extends React.Component{
 		return(
 			<div>
 				<h4>Enter Rooms for Floor {floor.number} of {block.blockName} Block</h4>
+
 				<table className="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Number</th>
-                            <th>Benches</th>
-							<th></th>
-                        </tr>
-                    </thead>
                     <tbody>
-                        {
-                            rooms.map( (room)=>{
-								return <tr key={room._id}>
-                                    <td>{room._id}</td>
-                                    <td>{room.number}</td>
-									<td>{room.benches}</td>
-                                    <td><button className="btn" onClick={()=>this.deleteRoom(room._id)}>Remove Room</button></td>
-                                </tr>;
-							})
-                        }
                         <tr>
-                            <td></td>
-                            <td><input type="text" placeholder="Enter Room Number" ref="number" onChange={this.resetInput}></input></td>
-							<td><input type="text" placeholder="Enter Bench Count" ref="benches" onChange={this.resetInput}></input></td>
+                            <td>Room:</td>
+                            <td><input type="text" className="form-control" placeholder="Enter Room Number" ref="number" onChange={this.resetInput}></input></td>
+							<td><input type="text" className="form-control" placeholder="Enter Bench Count" ref="benches" onChange={this.resetInput}></input></td>
                             <td><button className="btn" onClick={()=>this.postRoom()} >Add Room</button></td>
                         </tr>
                     </tbody>
                 </table>
+
+				<hr/>
+
+				{
+					rooms.map( (room)=>{
+						return <table className="table table-bordered">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Number</th>
+									<th>Benches</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody className="rooms">
+								<tr key={room._id}>
+									<td>{room._id}</td>
+									<td>{room.number}</td>
+									<td>{room.benches}</td>
+									<td><button className="btn btn-default" onClick={()=>this.deleteRoom(room._id)}>Remove Room</button></td>
+								</tr>
+							</tbody>
+						</table>;
+					})
+				}
 			</div>
 		);
 	}
