@@ -99,7 +99,7 @@ class RoomInput extends React.Component{
 		const rooms = this.state.rooms;
 		return(
 			<div>
-				<h4>Enter Rooms for Floor {floor.number} of Block {block.blockName}</h4>
+				<h4>Enter Rooms for Floor {floor.number} of {block.blockName} Block</h4>
 				<table className="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -122,8 +122,8 @@ class RoomInput extends React.Component{
                         }
                         <tr>
                             <td></td>
-                            <td><input type="text" placeholder="Enter Room Number" ref="number"></input></td>
-							<td><input type="text" placeholder="Enter Bench Count" ref="benches"></input></td>
+                            <td><input type="text" placeholder="Enter Room Number" ref="number" onChange={this.resetInput}></input></td>
+							<td><input type="text" placeholder="Enter Bench Count" ref="benches" onChange={this.resetInput}></input></td>
                             <td><button className="btn" onClick={()=>this.postRoom()} >Add Room</button></td>
                         </tr>
                     </tbody>

@@ -63,37 +63,49 @@ class FloorInput extends React.Component{
         const block = this.props.block;
         return (
             <div>
-                <h4>Enter Floors for Block {block.blockName}</h4>
+                <h4>Enter Floors for {block.blockName} Block</h4>
+                {
+                    block.floors.map( (floor)=>{
+                        return <div key={floor._id} className="panel-group" role="tablist">
+							<div className="panel panel-default">
+                                <div className="panel-heading" role="tab">
+									<h4 className="panel-title">
+										<table className="table table-bordered table-striped">
+											<thead>
+                                                <tr onClick={ ()=>$(`#${floor._id}`).collapse('toggle') } >
+                                                    <th className="table-column">Id</th>
+                                                    <th className="table-column">Number</th>
+                                                    <th className="table-column"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr onClick={ ()=>$(`#${floor._id}`).collapse('toggle') } >
+                                                    <td className="table-column">{floor._id}</td>
+                                                    <td className="table-column">{floor.number}</td>
+                                                    <td className="table-column"><button className="btn" onClick={ ()=>this.deleteFloor(block._id, floor._id) }>Remove Floor</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div id={floor._id} className="panel-collapse collapse" role="tabpanel">
+                                            <div className="panel-body">
+                                                <Rooms key={floor._id} floor={floor} block={block}/>
+                                            </div>
+                                        </div>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>;
+                    })
+                }
                 <table className="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Number</th>
-                            <th></th>
-                        </tr>
-                    </thead>
                     <tbody>
-                        {
-                            block.floors.map( (floor)=>{
-                                return <tr key={floor._id}>
-                                    <td>{floor._id}</td>
-                                    <td>{floor.number}</td>
-                                    <td><button className="btn" onClick={ ()=>this.deleteFloor(block._id, floor._id) }>Remove Floor</button></td>
-                                </tr>
-                            })
-                        }
                         <tr>
-                            <td></td>
-                            <td><input type="text" placeholder="Enter Floor Number" ref="number" onChange={this.resetInput}></input></td>
-                            <td><button className="btn" onClick={()=>this.postFloor(block._id)}>Add Floor</button></td>
+                            <td className="table-column">Floors :</td>
+                            <td className="table-column"><input type="text" placeholder="Enter Floor Number" ref="number" onChange={this.resetInput}></input></td>
+                            <td className="table-column"><button className="btn" onClick={()=>this.postFloor(block._id)}>Add Floor</button></td>
                         </tr>
                     </tbody>
                 </table>
-				{
-                    this.props.block.floors.map(function(floor){
-						return <Rooms key={floor._id} floor={floor} block={block}/>;
-                    })
-                }
             </div>
         );
     }
