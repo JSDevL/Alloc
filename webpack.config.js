@@ -1,8 +1,11 @@
 module.exports = {
     entry: [
-        'script!jquery/dist/jquery.min.js',
+        'style!css!bootstrap/dist/css/bootstrap.min.css',
+        'script!jquery/dist/jquery.js',
         'script!jquery.cookie/jquery.cookie.js',
         'script!jquery-ui-dist/jquery-ui.js',
+        'script!bootstrap/dist/js/bootstrap.js',
+        'script!underscore/underscore.js',
         './app/app.jsx'
     ],
     output: {

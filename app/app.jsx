@@ -3,9 +3,6 @@ const ReactDOM = require('react-dom');
 const {Provider} = require('react-redux');
 const {Route, Router, IndexRoute, hashHistory} = require('react-router');
 
-/*  bootstrap styles and third party global dependencies  */
-require('style!css!bootstrap/dist/css/bootstrap.min.css');
-require('script!underscore/underscore.js');
 /*  custom styles  */
 require('style!css!sass!./styles/App.scss');
 
