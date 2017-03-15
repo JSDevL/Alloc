@@ -21,7 +21,7 @@ class CombinationsWell extends React.Component{
 			_.each(combi.batches, (batch)=>{
 				if( !_.find(batchesInSessions, function(batchInSession){ return batchInSession.batch.toString() == batch._id.toString(); }) ){
 					this.availableBatches.push(
-						<a key={batch._id} className="btn btn-success" data-batch-id={batch._id} data-combi-id={combi._id}>
+						<a key={batch._id} className="btn btn-success" data-batch-id={batch._id} data-combi-id={combi._id} data-strength={batch.strength}>
 							{batch.year}{combi.name} <span className="badge">{batch.strength}</span>
 						</a>
 					);

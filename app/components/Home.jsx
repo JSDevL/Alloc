@@ -2,18 +2,19 @@ const React = require('react');
 
 /*  all child components   */
 const NavigationBar = require('NavigationBar');
+const Jumbotron = require('Jumbotron');
 
 class Home extends React.Component{
 	render(){
 		return (
             <div id="home">
 				<NavigationBar/>
-				<div className="jumbotron">
-					<div className="container">
-						<h1 className="logo">Alloc</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis</p>
-					</div>
-				</div>
+
+				<Jumbotron>
+					<h1 className="logo">Alloc</h1>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis</p>
+				</Jumbotron>
+				
 				<div className="container">
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
 					<div className="page-header track">

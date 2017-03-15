@@ -20,6 +20,9 @@ const CombinationDetails = require('prereqs/CombinationDetails');
 const Sessions = require('Sessions');
 const SessionInputs = require('sessions/SessionInputs');
 const CombinationsToSessions = require('sessions/CombinationsToSessions');
+/* allocation */
+const Allocation = require('Allocation');
+const Alloc = require('allocation/Alloc');
 
 /*  store   */
 const store = require('store').configure();
@@ -53,6 +56,9 @@ ReactDOM.render(
                 <Route path="sessions" component={Sessions}>
                     <IndexRoute component={SessionInputs}></IndexRoute>
                     <Route path="combinations-to-sessions" component={CombinationsToSessions}></Route>
+                </Route>
+                <Route path="allocation" component={Allocation}>
+                    <IndexRoute component={Alloc}></IndexRoute>
                 </Route>
             </Route>
         </Router>

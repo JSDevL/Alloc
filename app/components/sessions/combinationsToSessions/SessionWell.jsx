@@ -5,6 +5,14 @@ const {connect} = require('react-redux');
 const actions = require('alertActions');
 
 class SessionWell extends React.Component{
+	constructor(props){
+		super(props);
+
+		this.state = {
+			strength: this.props.session.allotedStrength
+		};
+	}
+
 	componentDidMount(){
 		const component = this;
 		$(`#combinations, #${this.props.session.name}`).sortable({
@@ -23,10 +31,15 @@ class SessionWell extends React.Component{
 	getBatch(batch, from, to){
 		const batch_ID = batch.attr('data-batch-id');
 		const combi_ID = batch.attr('data-combi-id');
+		const batchStrength = batch.attr('data-strength');
 		axios.post(`/sessions/${this.props.session._id}/combinations`, {
 			combi_ID: combi_ID,
-			batch_ID: batch_ID
+			batch_ID: batch_ID,
+			batchStrength: batchStrength
 		}).then( (response)=>{
+			this.setState({
+				strength: response.data.allotedStrength
+			});
 			this.props.dispatch(actions.setAlert(true, `batch assigned to ${to[0].id} from ${from[0].id}`, "success"));
 		});
 	}
@@ -34,18 +47,23 @@ class SessionWell extends React.Component{
 	removeBatch(batch, to, from){
 		const batch_ID = batch.attr('data-batch-id');
 		const combi_ID = batch.attr('data-combi-id');
+		const batchStrength = batch.attr('data-strength');
 		axios.put(`/sessions/${this.props.session._id}/combinations`, {
 			combi_ID: combi_ID,
-			batch_ID: batch_ID
+			batch_ID: batch_ID,
+			batchStrength: batchStrength
 		}).then( (response)=>{
+			this.setState({
+				strength: response.data.allotedStrength
+			});
 			this.props.dispatch(actions.setAlert(true, `batch removed from ${from[0].id}`, "success"));
 		});
 	}
 
 	render(){
 		return <div>
-			<div className="page-header">
-				<h3>{this.props.session.name} Session</h3>
+			<div className="page-header session-well-header">
+				<h3>{this.props.session.name} Session <span className="badge">{this.state.strength}</span></h3>
 			</div>
 			<div id={this.props.session.name} className="well session-well connectedSortable" ref="well">
 			{
@@ -53,7 +71,7 @@ class SessionWell extends React.Component{
 					let combi = _.find(this.props.combinations, function(combi){ return combi._id.toString() === batchInSession.combination.toString(); });
 					let batch = _.find(combi.batches, function(batch){ return batch._id.toString() === batchInSession.batch.toString(); });
 
-					return <a key={batch._id} className="btn btn-success" data-batch-id={batch._id} data-combi-id={combi._id}>
+					return <a key={batch._id} className="btn btn-success" data-batch-id={batch._id} data-combi-id={combi._id} data-strength={batch.strength}>
 						{batch.year}{combi.name} <span className="badge">{batch.strength}</span>
 					</a>;
 				})

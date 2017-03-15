@@ -6,7 +6,7 @@ const Track = require('./Track.jsx');
 const SessionWell = require('./combinationsToSessions/SessionWell.jsx');
 const CombinationsWell = require('./combinationsToSessions/CombinationsWell.jsx');
 
-class SessionInputs extends React.Component{
+class CombinationsToSessions extends React.Component{
 	render(){
 		return (
 			<div>
@@ -43,4 +43,4 @@ module.exports = connect((state)=>{
 		sessions: state.sessions,
 		combinations: state.combinations
 	};
-})(SessionInputs);
+})(CombinationsToSessions);

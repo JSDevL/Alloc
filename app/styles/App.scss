@@ -71,6 +71,26 @@ body{
 	}
 }
 
+.jumbotron{
+	/* animation magic */
+	-webkit-transition: padding 0.7s ease-in-out;
+	-moz-transition: padding 0.7s ease-in-out;
+
+	p{
+		/* animation magic */
+		-webkit-transition: font-size 0.7s ease-in-out;
+		-moz-transition: font-size 0.7s ease-in-out;
+	}
+}
+
+.shrinkable.jumbotron.shrink{
+	padding: 10px;
+
+	p{
+		font-size: 15px;
+	}
+}
+
 .progress-bar{
 	background-color: white;
 }
@@ -84,3 +104,4 @@ body{
 @import 'Login';
 @import 'NavigationBar';
 @import 'Prereqs';
+@import 'Sessions';
