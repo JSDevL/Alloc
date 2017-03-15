@@ -13,11 +13,11 @@ class Forms extends React.Component{
 				{
 					( ()=>{
 						const years = [];
-						for(let i=0; i<combi.duration; i++){
+						for(let i=1; i<=combi.duration; i++){
 							years.push(
 								<li role="presentation" key={"presentational"+combi.name+i}>
 									<a href={"#"+combi.name+i} aria-controls={combi.name+i} role="tab" data-toggle="tab">
-										year {i+1}
+										year {i}
 									</a>
 								</li>
 							);
@@ -31,7 +31,7 @@ class Forms extends React.Component{
 				{
 					( ()=>{
 						const years = [];
-						for(let i=0; i<combi.duration; i++){
+						for(let i=1; i<=combi.duration; i++){
 							years.push(
 								<div role="tabpanel" key={"tab"+combi.name+i} className="tab-pane" id={combi.name+i}>
 									<br/>

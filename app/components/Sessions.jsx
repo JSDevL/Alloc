@@ -9,13 +9,21 @@ const NavigationBar = require('NavigationBar');
 
 class Sessions extends React.Component{
 
-	componentDidMount(){
+	constructor(props){
+		super(props);
+		/* get combinations from DB */
+		axios.get(`/combinations`).then( (response)=>{
+			const allCombis = response.data;
+			this.props.dispatch(actions.getCombis(allCombis));
+		}).catch( (error)=>{
+			return console.log(error);
+		});
+		/* get sessions from DB */
 		axios.get('/sessions').then( (response)=>{
 			const sessions = response.data;
 			this.props.dispatch(actions.getSessions(sessions));
 			this.props.dispatch(actions.setAlert(true, "Loaded", "success"));
 		}).catch( (error)=>{
-			/* standard error occured */
 			return console.log(error);
 		});
 	}
@@ -42,6 +50,7 @@ class Sessions extends React.Component{
 
 module.exports = connect((state)=>{
 	return {
+		combinations: state.combinations,
 		sessions: state.sessions,
 		alert: state.alert
 	};
