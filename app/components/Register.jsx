@@ -1,64 +1,81 @@
 const React = require('react');
 const axios = require('axios');
 const {connect} = require('react-redux');
+const {hashHistory} = require('react-router');
 /* all actions needed */
 const actions = require('alertActions');
 
 class Register extends React.Component{
-    register(e){
-        e.preventDefault();
+	componentWillMount(){
+		/* If user exist, login */
+		axios.get('/login').then( ()=>{
+			hashHistory.push('/');
+			this.props.dispatch(actions.setAlert(true, "User for app found. Please login", "success"));
+		});
+	}
 
-        axios.post('/register', {
-            userName: this.refs.userName.value,
-            password: this.refs.password.value,
-            confirmPassword: this.refs.confirmPassword.value,
-        })
-        .then( (response)=>{
+	register(e){
+		e.preventDefault();
+
+		axios.post('/register', {
+			userName: this.refs.userName.value,
+			password: this.refs.password.value,
+			confirmPassword: this.refs.confirmPassword.value,
+		}).then( ()=>{
             /* Successfully registered */
-            this.props.dispatch(actions.setAlert(true, "Successfully Registered", "success"));
-        })
-        .catch( (error)=>{
-            /* The request was made, but the server responded with a status code */
-            /* that falls out of the range of 2xx */
-            let err = error.response.data;
-            /* if err object contains validation errors */
-            if(err.errors){
-                let messages = [];
-                for( error in err.errors ){
-                    /* get all messages */
-                    messages.push( err.errors[error].message );
-                    /* add classes to input fields */
-                    $(this.refs[error]).addClass('bg-danger');
-                }
-                this.props.dispatch(actions.setAlert(true, messages.join('::'), "danger"));
-            } else {
-                this.props.dispatch(actions.setAlert(true, err.message, "danger"));
-            }
-        });
-    }
+			hashHistory.push('/');
+			this.props.dispatch(actions.setAlert(true, "Successfully Registered", "success"));
+		}).catch( (error)=>{
+			/* The request was made, but the server responded with a status code that falls out of the range of 2xx */
+			if( error.response.data.errors ){
+				let messages = [];
+				_.each(error.response.data.errors, (error, key)=>{
+					messages.push( error.message );
+					$(this.refs[ error.path ]).addClass('greened');
+				});
+				this.props.dispatch(actions.setAlert(true, messages.join('::'), "danger"));
+			} else if( error.response.data.message ) {
+				this.props.dispatch(actions.setAlert(true, error.response.data.message, "danger"));
+			}
+		});
+	}
 
-    resetInput(event) {
-        $(event.target).removeClass('bg-danger');
-    }
+	resetInput(event) {
+		$(event.target).removeClass('greened');
+	}
 
-    render(){
-        return <div>
-            <form>
-                <label>username</label>
-                <input type="text" ref="userName" onChange={this.resetInput}></input>
-                <label>password</label>
-                <input type="password" ref="password" onChange={this.resetInput}></input>
-                <label>confirm password</label>
-                <input type="password" ref="confirmPassword" onChange={this.resetInput}></input>
-
-                <button onClick={(e)=>this.register(e)}>Register</button>
-            </form>
-        </div>
-    }
+	render(){
+		return <div className="container">
+			<div className="container row">
+                <div className="absolute-center is-responsive col-xs-12 col-sm-6 col-md-3 ">
+                    <form id="login-form" className="greened">
+						<h1 className="logo">Alloc</h1>
+						<hr/>
+						<p>No Admin found. Please Register as Admin.</p>
+                        <div className="form-group">
+                            <label>Username</label>
+                            <input type="text" className="form-control" ref="userName" onChange={this.resetInput}></input>
+                        </div>
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input type="password" className="form-control" ref="password" onChange={this.resetInput}></input>
+                        </div>
+						<div className="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" className="form-control" ref="confirmPassword" onChange={this.resetInput}></input>
+                        </div>
+                        <div className="form-group">
+                            <button type="submit" className="btn btn-default" onClick={(e)=>this.register(e)}>Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>;
+	}
 }
 
 module.exports = connect((state)=>{
-    return {
-        alert: state.alert
-    }
+	return {
+		alert: state.alert
+	};
 })(Register);
