@@ -1,16 +1,16 @@
 module.exports = {
     entry: [
-        'style!css!bootstrap/dist/css/bootstrap.min.css',
         'script!jquery/dist/jquery.js',
         'script!jquery.cookie/jquery.cookie.js',
         'script!jquery-ui-dist/jquery-ui.js',
-        'script!bootstrap/dist/js/bootstrap.js',
         'script!underscore/underscore.js',
+        'bootstrap-loader',
         './app/app.jsx'
     ],
     output: {
-        path: __dirname,
-        filename: './public/bundle.js'
+		path: __dirname + '/public/',
+		publicPath: '/app/',
+        filename: './bundle.js'
     },
     resolve: {
         root: __dirname,
