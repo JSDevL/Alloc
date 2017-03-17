@@ -1,11 +1,11 @@
 const React = require('react');
 
 /*  all child components   */
-const NavigationBar = require('NavigationBar');
+const NavigationBar = require('NavigationBar'); 
 const Jumbotron = require('Jumbotron');
 const Track = require('Jumbotron');
 
-class Prereqs extends React.Component{
+class Allocation extends React.Component{
 	render(){
 		return (
             <div>
@@ -24,4 +24,4 @@ class Prereqs extends React.Component{
 	}
 }
 
-module.exports = Prereqs;
+module.exports = Allocation;

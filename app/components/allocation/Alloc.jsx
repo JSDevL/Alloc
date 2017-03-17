@@ -1,121 +1,59 @@
 const React = require('react');
-
+const axios = require('axios');
+const {connect} = require('react-redux');
+/* all actions needed */
+const actions = require('alertActions');
+Object.assign(actions, require('combinationsActions'));
+Object.assign(actions, require('sessionsActions'));
+Object.assign(actions, require('blocksActions'));
 /*  all child components   */
-const Track = require('./Track');
+const Session = require('./alloc/Session');
 
-class Home extends React.Component{
-	componentDidMount(){
-		$(this.props.affix).affix({
-			offset: {
-				bottom: 700
-			}
+class Alloc extends React.Component{ 
+	constructor(props){
+		super(props);
+
+		this.props.dispatch(actions.setAlert(true, "Loading... Please wait", "warning"));
+
+		/* get combinations from DB */
+		axios.get(`/combinations`).then( (response)=>{
+			const allCombis = response.data;
+			/* get sessions from DB */
+			axios.get('/sessions').then( (response)=>{
+				const sessions = response.data;
+				/* get sessions from DB */
+				axios.get("/alloc/blocks").then( (response)=>{
+					const allBlocks = response.data;
+					this.props.dispatch(actions.getCombis(allCombis));
+					this.props.dispatch(actions.getSessions(sessions));
+					this.props.dispatch(actions.getBlocks(allBlocks));
+					this.props.dispatch(actions.setAlert(true, "Loaded", "success"));
+				});
+			});
+		}).catch( (error)=>{
+			return console.log(error);
 		});
 	}
 
 	render(){
 		return (
             <div id="alloc">
-				<Track status={[1, 0, 0]}/>
-				<div className="row">
-					<div className="col-xs-8">
-						<div className="page-header">
-							<h1>Science Block</h1>
-						</div>
-
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title">Room S201</h3>
-							</div>
-							<div className="panel-body">
-								Panel conten
-							</div>
-						</div>
-
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title">Room S201</h3>
-							</div>
-							<div className="panel-body">
-								Panel conten
-							</div>
-						</div>
-
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title">Room S201</h3>
-							</div>
-							<div className="panel-body">
-								Panel conten
-							</div>
-						</div>
-
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title">Room S201</h3>
-							</div>
-							<div className="panel-body">
-								Panel conten
-							</div>
-						</div>
-
-						<div className="page-header">
-							<h1>Humanities Block</h1>
-						</div>
-
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title">Room S201</h3>
-							</div>
-							<div className="panel-body">
-								Panel conten
-							</div>
-						</div>
-
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title">Room S201</h3>
-							</div>
-							<div className="panel-body">
-								Panel conten
-							</div>
-						</div>
-
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title">Room S201</h3>
-							</div>
-							<div className="panel-body">
-								Panel conten
-							</div>
-						</div>
-
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title">Room S201</h3>
-							</div>
-							<div className="panel-body">
-								Panel conten
-							</div>
-						</div>
-
-					</div>
-					<div className="col-xs-4">
-						<div className="page-header">
-							<h1>Combinations</h1>
-						</div>
-						<div className="well affix" ref="affix">
-							<a className="btn btn-success">1BCA <span className="badge">56</span></a>
-							<a className="btn btn-success">1BVC <span className="badge">23</span></a>
-							<a className="btn btn-success">1PCM <span className="badge">14</span></a>
-							<a className="btn btn-success">1BVoc <span className="badge">45</span></a>
-							<a className="btn btn-success">1MEC <span className="badge">76</span></a>
-							<a className="btn btn-success">1MCZ <span className="badge">39</span></a>
-						</div>
-					</div>
-				</div>
+				{
+					( ()=>{
+						if(this.props.combinations.length && this.props.sessions.length && this.props.blocks.length)
+							return <Session/>;
+					} )()
+				}
 			</div>
 		);
 	}
 }
 
-module.exports = Home;
+module.exports = connect((state)=>{
+	return {
+		blocks: state.blocks,
+		combinations: state.combinations,
+		sessions: state.sessions,
+		alert: state.alert
+	};
+})(Alloc);

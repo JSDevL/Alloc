@@ -10,4 +10,14 @@
 	margin: 0px;
 
 	text-align: center;
+
+	&.alert-danger{
+		background-color: $primary-danger;
+		color: white;
+	}
+
+	&.alert-success{
+		background-color: $primary-green;
+		color: white;
+	}
 }

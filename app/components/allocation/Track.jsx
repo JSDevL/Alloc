@@ -9,14 +9,14 @@ class Track extends React.Component{
 
 		return (
 			<div className="progress">
-				<div className={ printProgressStatus(0) } style={{width: 33.33+'%'}}>
-					<p><span className="badge">1</span> <a href="#/prereqs">Building and Benches</a></p>
+				<div className={ printProgressStatus(0) } style={{width: 33.33 + '%'}}>
+					<p><span className="badge">1</span> <a href="#/allocation">Morning Session</a></p>
 				</div>
-				<div className={ printProgressStatus(1) } style={{width: 33.33+'%'}}>
-					<p><span className="badge">2</span> <a href="#/prereqs/combinations">Combinatons and Conflicts</a></p>
+				<div className={ printProgressStatus(1) } style={{width: 33.33 + '%'}}>
+					<p><span className="badge">2</span> <a href="#/allocation">Afternoon Session</a></p>
 				</div>
-				<div className={ printProgressStatus(2) } style={{width: 33.33+'%'}}>
-					<p><span className="badge">3</span> <a href="#/prereqs/combination-details">Combination Details</a></p>
+				<div className={ printProgressStatus(2) } style={{width: 33.33 + '%'}}>
+					<p><span className="badge">3</span> <a href="#/allocation">Evening Session</a></p>
 				</div>
 			</div>
 		);

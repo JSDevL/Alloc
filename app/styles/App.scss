@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+
 $site-bg: #fafafa;
 $primary-green: #5cb85c;
 $secondary-green: #449d44;
 $complements-green: #f0ad4e;
+
+$primary-danger: #d43f3a;
 
 body{
 	background: $site-bg;
@@ -19,6 +23,10 @@ body{
 	a{
 		color: white;
 	}
+}
+
+.text-warning{
+	color: #f0ad4e;
 }
 
 .jumbotron{
@@ -104,4 +112,5 @@ body{
 @import 'Login';
 @import 'NavigationBar';
 @import 'Prereqs';
+@import 'Alloc';
 @import 'Sessions';

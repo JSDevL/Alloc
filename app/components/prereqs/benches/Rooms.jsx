@@ -3,9 +3,6 @@ const {connect} = require("react-redux");
 const axios = require("axios");
 /*  all required actions   */
 const actions = require("alertActions");
-/* so we know jquery is used */
-const $ = $;
-const _ = require("underscore");
 
 class RoomInput extends React.Component{
 	constructor(props){
