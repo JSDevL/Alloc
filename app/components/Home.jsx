@@ -1,13 +1,29 @@
 const React = require('react');
-
+const axios = require('axios');
+const {connect} = require('react-redux');
+/* all actions needed */
+const actions = require('alertActions');
+Object.assign(actions, require('stagesActions'));
 /*  all child components   */
 const NavigationBar = require('NavigationBar');
 const Jumbotron = require('Jumbotron');
 
 class Home extends React.Component{
+
+	componentDidMount(){
+		if(!this.props.stages.prereqs){
+			/* get stages state from DB */
+			axios.post(`/stages`, {
+				userName: $.cookie('userName')
+			}).then( (response)=>{
+				this.props.dispatch(actions.getStages(response.data));
+			});
+		}
+	}
+
 	render(){
-		return (
-            <div id="home">
+		if( this.props.stages.prereqs !== undefined ){
+			return <div id="home">
 				<NavigationBar/>
 
 				<Jumbotron>
@@ -29,19 +45,19 @@ class Home extends React.Component{
 									</div>
 								</td>
 
-								<td className="building">
+								<td className={this.props.stages.prereqs.subStages.building.state===true?`building done`:`building`}>
 									<div>
-										<h2>Building Details</h2>
+										<h2><span className="glyphicon glyphicon-ok-sign"></span> Building Details</h2>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
-										<button className="btn btn-success">Enter track</button>
+										<a className="btn btn-success" href="#/building">Enter track</a>
 									</div>
 								</td>
 
-								<td className="combi-and-sessions">
+								<td className={this.props.stages.prereqs.subStages.combinations.state===true?`combi-and-sessions done`:`combi-and-sessions`}>
 									<div>
-										<h2>Combination Details</h2>
+										<h2><span className="glyphicon glyphicon-ok-sign"></span> Combination Details</h2>
 										<div className="progress">
-											<div className="progress-bar progress-bar-success active" style={{width: 50+'%'}}>
+											<div className="progress-bar progress-bar-default" style={{width: 50+'%'}}>
 												<p>Details</p>
 											</div>
 											<div className="progress-bar progress-bar-default" style={{width: 50+'%'}}>
@@ -49,15 +65,15 @@ class Home extends React.Component{
 											</div>
 										</div>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
-										<button className="btn btn-success">Enter track</button>
+										<a className="btn btn-success" href="#/combinations">Enter track</a>
 									</div>
 								</td>
 
-								<td className="combi-and-sessions">
+								<td className={this.props.stages.prereqs.subStages.sessions.state===true?`combi-and-sessions done`:`combi-and-sessions`}>
 									<div>
-										<h2>Session Details</h2>
+										<h2><span className="glyphicon glyphicon-ok-sign"></span> Session Details</h2>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
-										<button className="btn btn-success">Enter track</button>
+										<a className="btn btn-success" href="#/sessions">Enter track</a>
 									</div>
 								</td>
 							</tr>
@@ -69,15 +85,14 @@ class Home extends React.Component{
 									</div>
 								</td>
 
-								<td className="building">
-
+								<td className={this.props.stages.prereqs.subStages.building.state===true?`building done`:`building`}>
 								</td>
 
-								<td colSpan="2" className="combi-and-sessions">
+								<td colSpan="2" className={this.props.stages.combinationsToSessions.state===true?`combi-and-sessions done`:`combi-and-sessions`}>
 									<div>
-										<h2>Session Allotment</h2>
+										<h2><span className="glyphicon glyphicon-ok-sign"></span> Session Allotment</h2>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
-										<button className="btn btn-success">Enter track</button>
+										<a className="btn btn-success" href="#/combinations-to-sessions">Enter track</a>
 									</div>
 								</td>
 							</tr>
@@ -89,31 +104,39 @@ class Home extends React.Component{
 									</div>
 								</td>
 							
-								<td colSpan="3" className="allocation">
+								<td colSpan="3" className={this.props.stages.allocation.state===true?`allocation done`:`allocation`}>
 									<div>
-										<h2>Combination Allotment</h2>
+										<h2><span className="glyphicon glyphicon-ok-sign"></span> Combination Allotment</h2>
 										<div className="progress">
-											<div className="progress-bar progress-bar-success active" style={{width: 33.33+'%'}}>
+											<div className="progress-bar progress-bar-default" style={{width: 33.33+'%'}}>
 												<p>Morning</p>
 											</div>
-											<div className="progress-bar progress-bar-warning" style={{width: 33.33+'%'}}>
+											<div className="progress-bar progress-bar-default" style={{width: 33.33+'%'}}>
 												<p>Afternoon</p>
 											</div>
-											<div className="progress-bar progress-bar-success active" style={{width: 33.33+'%'}}>
+											<div className="progress-bar progress-bar-default" style={{width: 33.33+'%'}}>
 												<p>Evening</p>
 											</div>
 										</div>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
-										<button className="btn btn-success">Enter track</button>
+										<a className="btn btn-success" href="#/allocation">Enter track</a>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-            </div>
-		);
+			</div>;
+		} else {
+			return <div></div>;
+		}
+		
 	}
 }
 
-module.exports = Home;
+module.exports = connect((state)=>{
+	return {
+		stages: state.stages,
+		alert: state.alert
+	};
+})(Home);

@@ -4,10 +4,8 @@ const {connect} = require('react-redux');
 /*  all required actions   */
 const actions = require('sessionsActions');
 Object.assign(actions, require('alertActions'));
-/* all child components */
-const Track = require('./Track.jsx');
 
-class SessionInputs extends React.Component{
+class SessionsInputs extends React.Component{
 	addSession(e){
 		e.preventDefault();
 		axios.post("/sessions", {
@@ -52,8 +50,6 @@ class SessionInputs extends React.Component{
 
 	render(){
 		return <div>
-			<Track status={[1, 0]}/>
-
 			<h4>Enter Sessions</h4>
 			<table className="table table-bordered table-striped">
 				<thead>
@@ -119,4 +115,4 @@ module.exports = connect((state)=>{
 		sessions: state.sessions,
 		alert: state.alert
 	};
-})(SessionInputs);
+})(SessionsInputs);

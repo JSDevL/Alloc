@@ -5,10 +5,9 @@ const {connect} = require('react-redux');
 const actions = require('blocksActions');
 Object.assign(actions, require('alertActions'));
 /* all child components */
-const Track = require('./Track.jsx');
-const Blocks = require('./benches/Blocks.jsx');
+const Blocks = require('./buildingInputs/Blocks.jsx');
 
-class Prereqs extends React.Component{
+class BuildingInputs extends React.Component{
 	componentDidMount(){
 		/* get initial blocks from DB */
 		axios.get("/blocks").then( (response)=>{
@@ -16,8 +15,7 @@ class Prereqs extends React.Component{
 			this.props.dispatch(actions.getBlocks(allBlocks));
 			this.props.dispatch(actions.setAlert(true, "Loaded", "success"));
 		}).catch( (error)=>{
-            /* The request was made, but the server responded with a status code */
-            /* that falls out of the range of 2xx */
+            /* The request was made, but the server responded with a status code  that falls out of the range of 2xx */
 			if(!error.response){
 				/* standard error occured */
 				return console.log(error);
@@ -28,7 +26,6 @@ class Prereqs extends React.Component{
 	render(){
 		return (
             <div>
-				<Track status={[1, 0, 0]}/>
 				<Blocks/>
             </div>
 		);
@@ -40,4 +37,4 @@ module.exports = connect((state)=>{
 		blocks: state.blocks,
 		alert: state.alert
 	};
-})(Prereqs);
+})(BuildingInputs);

@@ -12,7 +12,7 @@ class CombiSidebar extends React.Component{
 		$(window).resize( ()=>{
 			this.affixCombi();
 		});
-
+		// attach sortable event
 		const component = this;
 		$(this.refs.combiWell).on("sortreceive", function( event, ui ){
 			component.removeBatch(ui.item, ui.sender, $(this));

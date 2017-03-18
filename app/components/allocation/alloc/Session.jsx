@@ -16,7 +16,7 @@ class Home extends React.Component{
 		return <div className="row">
 			<Blocks blocks={this.props.blocks}/>
 
-			<CombiSidebar session={this.props.sessions[1]} combinations={this.props.combinations}/>
+			<CombiSidebar session={this.props.sessions[0]} combinations={this.props.combinations}/>
 		</div>;
 	}
 }

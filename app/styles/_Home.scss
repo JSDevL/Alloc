@@ -19,6 +19,20 @@
 		padding: 20px;
 		vertical-align: text-top;
 		text-align: left;
+
+		h2 .glyphicon{
+			display: none;
+		}
+	}
+
+	td.done{
+		h2 .glyphicon{
+			display: inline-block;
+		}
+
+		.progress-bar-default{
+			color: white;
+		}
 	}
 
 	td.stage{
@@ -35,5 +49,10 @@
 
 	td.allocation{
 		background-color: #fcfcfc;
+	}
+
+	td.done{
+		background: $primary-green;
+		color: white;
 	}
 }

@@ -11,18 +11,18 @@ const Alert = require('Alert');
 const Login = require('Login');
 const Home = require('Home');
 const Register = require('Register');
-/* prereqs */
-const Prereqs = require('Prereqs');
-const Benches = require('prereqs/Benches');
-const Combinations = require('prereqs/Combinations');
-const CombinationDetails = require('prereqs/CombinationDetails');
+/* building */
+const Building = require('Building');
+/* combinations */
+const Combinations = require('Combinations');
+const CombinationsInputs = require('combinations/CombinationsInputs');
+const CombinationsDetails = require('combinations/CombinationsDetails');
 /* sessions */
 const Sessions = require('Sessions');
-const SessionInputs = require('sessions/SessionInputs');
-const CombinationsToSessions = require('sessions/CombinationsToSessions');
+/* combinations to sessions */
+const CombinationsToSessions = require('CombinationsToSessions');
 /* allocation */
 const Allocation = require('Allocation');
-const Alloc = require('allocation/Alloc');
 
 /*  store   */
 const store = require('store').configure();
@@ -45,21 +45,26 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={hashHistory}>
             <Route path="/" component={App}>
+
                 <IndexRoute component={Login}></IndexRoute>
+
                 <Route path="home" component={Home}></Route>
+
                 <Route path="register" component={Register}></Route>
-                <Route path="prereqs" component={Prereqs}>
-                    <IndexRoute component={Benches}></IndexRoute>
-                    <Route path="combinations" component={Combinations}></Route>
-                    <Route path="combination-details" component={CombinationDetails}></Route>
+
+                <Route path="building" component={Building}></Route>
+
+                <Route path="combinations" component={Combinations}>
+                    <IndexRoute component={CombinationsInputs}></IndexRoute>
+                    <Route path="combinations-details" component={CombinationsDetails}></Route>
                 </Route>
-                <Route path="sessions" component={Sessions}>
-                    <IndexRoute component={SessionInputs}></IndexRoute>
-                    <Route path="combinations-to-sessions" component={CombinationsToSessions}></Route>
-                </Route>
-                <Route path="allocation" component={Allocation}>
-                    <IndexRoute component={Alloc}></IndexRoute>
-                </Route>
+
+                <Route path="sessions" component={Sessions}></Route>
+
+                <Route path="combinations-to-sessions" component={CombinationsToSessions}></Route>
+
+                <Route path="allocation" component={Allocation}></Route>
+
             </Route>
         </Router>
     </Provider>,

@@ -67,7 +67,6 @@ class RoomInput extends React.Component{
 	deleteRoom(roomID){
 		axios.delete(`/blocks/${this.props.block._id}/floors/${this.props.floor._id}/rooms/${roomID}/`)
 		.then( (response)=>{
-			debugger;
 			const deleteID = response.data;
 			let updatedRooms = _.reject(this.state.rooms, function(room){
 				return room._id.toString() === deleteID.toString();

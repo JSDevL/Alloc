@@ -5,20 +5,15 @@ const {connect} = require('react-redux');
 const actions = require('sessionsActions');
 Object.assign(actions, require('alertActions'));
 /*  all child components   */
+const StageValidator = require('StageValidator');
 const NavigationBar = require('NavigationBar');
 const Jumbotron = require('Jumbotron');
+const SessionsInputs = require('sessions/SessionsInputs');
 
 class Sessions extends React.Component{
 
 	constructor(props){
 		super(props);
-		/* get combinations from DB */
-		axios.get(`/combinations`).then( (response)=>{
-			const allCombis = response.data;
-			this.props.dispatch(actions.getCombis(allCombis));
-		}).catch( (error)=>{
-			return console.log(error);
-		});
 		/* get sessions from DB */
 		axios.get('/sessions').then( (response)=>{
 			const sessions = response.data;
@@ -40,7 +35,8 @@ class Sessions extends React.Component{
 				</Jumbotron>
 				
 				<div className="container">
-					{this.props.children}
+					<SessionsInputs/>
+					<StageValidator stage="sessions"/>
 				</div>
             </div>
 		);
@@ -49,7 +45,6 @@ class Sessions extends React.Component{
 
 module.exports = connect((state)=>{
 	return {
-		combinations: state.combinations,
 		sessions: state.sessions,
 		alert: state.alert
 	};
