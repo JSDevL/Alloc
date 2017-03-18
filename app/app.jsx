@@ -13,16 +13,16 @@ const Home = require('Home');
 const Register = require('Register');
 /* building */
 const Building = require('Building');
-/* combinations */
-const Combinations = require('Combinations');
-const CombinationsInputs = require('combinations/CombinationsInputs');
-const CombinationsDetails = require('combinations/CombinationsDetails');
+/* Batch */
+const Batch = require('Batch');
+const BatchInputs = require('batch/BatchInputs');
+//const BatchDetails = require('batch/BatchDetails');
 /* sessions */
 const Sessions = require('Sessions');
-/* combinations to sessions */
-const CombinationsToSessions = require('CombinationsToSessions');
+/* Batch to sessions */
+//const BatchToSessions = require('BatchToSessions');
 /* allocation */
-const Allocation = require('Allocation');
+//const Allocation = require('Allocation');
 
 /*  store   */
 const store = require('store').configure();
@@ -54,19 +54,19 @@ ReactDOM.render(
 
                 <Route path="building" component={Building}></Route>
 
-                <Route path="combinations" component={Combinations}>
-                    <IndexRoute component={CombinationsInputs}></IndexRoute>
-                    <Route path="combinations-details" component={CombinationsDetails}></Route>
+                <Route path="batches" component={Batch}>
+                    <IndexRoute component={BatchInputs}></IndexRoute>
                 </Route>
-
-                <Route path="sessions" component={Sessions}></Route>
-
-                <Route path="combinations-to-sessions" component={CombinationsToSessions}></Route>
-
-                <Route path="allocation" component={Allocation}></Route>
 
             </Route>
         </Router>
     </Provider>,
     document.getElementById('app')
 );
+        //<Route path="batch-details" component={BatchDetails}></Route>
+
+//<Route path="batch-to-sessions" component={BatchToSessions}></Route>
+
+// <Route path="sessions" component={Sessions}></Route>
+
+// <Route path="allocation" component={Allocation}></Route>

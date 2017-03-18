@@ -67,9 +67,11 @@ class StageValidator extends React.Component{
 
 	render(){
 		return <div className="row">
-			<hr/>
-			To proceed to the next stage, respective dependencies from previous page need to be finalised
-			<button className="btn btn-success" onClick={()=>this.finalise()}>Finalize</button>
+			<div className="col-xs-12">
+				<hr/>
+				<p>To proceed to the next stage, respective dependencies from previous page need to be finalised</p>
+				<button className="btn btn-success" onClick={()=>this.finalise()}>Finalize</button>
+			</div>
 		</div>;
 	}
 }

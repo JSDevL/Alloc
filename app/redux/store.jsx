@@ -2,7 +2,7 @@ const redux = require('redux');
 const alertReducer = require('./alertReducer');
 const userReducer = require('./userReducer');
 const blocksReducer = require('./blocksReducer');
-const combinationsReducer = require('./combinationsReducer');
+const batchesReducer = require('./batchesReducer');
 const sessionsReducer = require('./sessionsReducer');
 const stagesReducer = require('./stagesReducer');
 
@@ -11,7 +11,7 @@ export var configure = () => {
 		alert: alertReducer,
 		user: userReducer,
 		blocks: blocksReducer,
-		combinations: combinationsReducer,
+		batches: batchesReducer,
 		sessions: sessionsReducer,
 		stages: stagesReducer
 	});

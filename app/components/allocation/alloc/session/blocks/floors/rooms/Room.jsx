@@ -22,8 +22,10 @@ class Room extends React.Component{
 	}
 
 	getBatch(side, item, from, to){
+		/* extract data from item */
 		const batch = JSON.parse(item.attr('data-batch'));
 
+		/* if coming from another room, remove the same from that room */
 		if( from.hasClass('room-well') ){
 			axios.put(`/alloc/rooms/${batch.room}/batches`, {
 				batch: batch
@@ -32,10 +34,12 @@ class Room extends React.Component{
 			});
 		}
 
+		/* update the data with new room details */
 		batch.room = this.props.room._id;
 		batch.side = side;
 		item.attr('data-batch', JSON.stringify(batch));
 
+		/* add it to the DB */
 		axios.post(`/alloc/rooms/${this.props.room._id}`, {
 			batch: batch
 		}).then( (response)=>{
@@ -70,7 +74,7 @@ class Room extends React.Component{
 					{batchObject.strength}
 				</span>
 			</a>;
-		})
+		});
 	}
 
 	render(){
