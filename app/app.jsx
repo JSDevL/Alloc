@@ -2,34 +2,32 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const {Provider} = require('react-redux');
 const {Route, Router, IndexRoute, hashHistory} = require('react-router');
+
+
 /*  custom styles  */
 require('style!css!sass!./styles/App.scss');
 
 
-/*  react components  */
+/*  app children components   */
+/* Alert plugin */
 const Alert = require('Alert');
-const Login = require('Login');
+/* Home page */
 const Home = require('Home');
+/* Login page */
+const Login = require('Login');
+/* Register page */
 const Register = require('Register');
-/* building */
-const Building = require('Building');
-/* Batch */
+/* Batch Page */
 const Batch = require('Batch');
 const BatchInputs = require('batch/BatchInputs');
-//const BatchDetails = require('batch/BatchDetails');
-/* sessions */
-const Sessions = require('Sessions');
-/* Batch to sessions */
-//const BatchToSessions = require('BatchToSessions');
-/* allocation */
-//const Allocation = require('Allocation');
 
 
 /*  store   */
 const store = require('store').configure();
 store.subscribe(()=>{
-    //console.log(store.getState())
+    console.log(store.getState());
 });
+
 
 class App extends React.Component{
 	render(){
@@ -42,18 +40,17 @@ class App extends React.Component{
 	}
 }
 
+
 ReactDOM.render(
     <Provider store={store}>
         <Router history={hashHistory}>
             <Route path="/" component={App}>
+            
+                <IndexRoute component={Home}></IndexRoute>
 
-                <IndexRoute component={Login}></IndexRoute>
+                <Route path="login" component={Login}></Route>
 
                 <Route path="register" component={Register}></Route>
-
-                <Route path="home" component={Home}></Route>
-
-                <Route path="building" component={Building}></Route>
 
                 <Route path="batches" component={Batch}>
                     <IndexRoute component={BatchInputs}></IndexRoute>
@@ -64,11 +61,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('app')
 );
-
-        //<Route path="batch-details" component={BatchDetails}></Route>
-
-//<Route path="batch-to-sessions" component={BatchToSessions}></Route>
-
-// <Route path="sessions" component={Sessions}></Route>
-
-// <Route path="allocation" component={Allocation}></Route>
