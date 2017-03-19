@@ -10,10 +10,10 @@ class Track extends React.Component{
 		return (
 			<div className="progress">
 				<div className={ printProgressStatus(0) } style={{width: 50+'%'}}>
-					<p><span className="badge">1</span> <a href="#/combinations/">Combinations and Conflicts</a></p>
+					<p><span className="badge">1</span> <a href="#/batches/">Combinations and Conflicts</a></p>
 				</div>
 				<div className={ printProgressStatus(1) } style={{width: 50+'%'}}>
-					<p><span className="badge">2</span> <a href="#/combinations/combinations-details">Combinaton Details</a></p>
+					<p><span className="badge">2</span> <a href="#/batches/details">Batch Details</a></p>
 				</div>
 			</div>
 		);

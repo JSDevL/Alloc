@@ -14,9 +14,8 @@ const GradLevels = require('./batchInputs/GradLevels.jsx');
 
 
 class BatchInputs extends React.Component{
-
 	componentWillMount(){
-		if(!this.props.batches.prereqs){
+		if(_.isEmpty(this.props.batches)){
 			/* get initial Batches from DB */
 			axios.get(`/batches`).then( (response)=>{
 				this.props.dispatch(actions.getBatches(response.data));
@@ -39,11 +38,13 @@ class BatchInputs extends React.Component{
 		return <div>
 			<Track status={[1, 0]}/>
 
-			<div>
-				<GradLevels gradLevel="UG"/>
-				<hr />
-				<GradLevels gradLevel="PG"/>
-			</div>
+			{	!_.isEmpty(this.props.batches) &&
+				<div>
+					<GradLevels gradLevel="UG"/>
+					<hr />
+					<GradLevels gradLevel="PG"/>
+				</div>
+			}
 		</div>;
 	}
 }

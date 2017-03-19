@@ -111,6 +111,17 @@ body{
     margin:15px 3px !important;
 }
 
+ul.nav{
+	li.active{
+		a.greened{
+			background-color: $primary-green;
+			font-weight: bold;
+			font-style: italic;
+			color: white;
+		}
+	}
+}
+
 @import 'Alert';
 @import 'Home';
 @import 'Login';

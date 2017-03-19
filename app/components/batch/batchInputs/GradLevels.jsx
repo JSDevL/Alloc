@@ -53,7 +53,7 @@ class Levels extends React.Component{
 		});
 	}
 
-	componentWillUpdate(){
+	componentWillMount(){
 		/* filter out gradLevel batches */
 		const gradLevelBatches = _.filter(this.props.batches, (batch)=>{ return batch.gradLevel === this.props.gradLevel; }); 
 		/* group incoming batches by combinations */

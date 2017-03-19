@@ -20,6 +20,7 @@ const Register = require('Register');
 /* Batch Page */
 const Batch = require('Batch');
 const BatchInputs = require('batch/BatchInputs');
+const BatchDetails = require('batch/BatchDetails');
 
 
 /*  store   */
@@ -53,6 +54,7 @@ ReactDOM.render(
 
                 <Route path="batches" component={Batch}>
                     <IndexRoute component={BatchInputs}></IndexRoute>
+                    <Route path="details" component={BatchDetails}></Route>
                 </Route>
 
             </Route>
