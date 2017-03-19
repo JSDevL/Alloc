@@ -2,9 +2,9 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const {Provider} = require('react-redux');
 const {Route, Router, IndexRoute, hashHistory} = require('react-router');
-
 /*  custom styles  */
 require('style!css!sass!./styles/App.scss');
+
 
 /*  react components  */
 const Alert = require('Alert');
@@ -23,6 +23,7 @@ const Sessions = require('Sessions');
 //const BatchToSessions = require('BatchToSessions');
 /* allocation */
 //const Allocation = require('Allocation');
+
 
 /*  store   */
 const store = require('store').configure();
@@ -48,9 +49,9 @@ ReactDOM.render(
 
                 <IndexRoute component={Login}></IndexRoute>
 
-                <Route path="home" component={Home}></Route>
-
                 <Route path="register" component={Register}></Route>
+
+                <Route path="home" component={Home}></Route>
 
                 <Route path="building" component={Building}></Route>
 
@@ -63,6 +64,7 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('app')
 );
+
         //<Route path="batch-details" component={BatchDetails}></Route>
 
 //<Route path="batch-to-sessions" component={BatchToSessions}></Route>
