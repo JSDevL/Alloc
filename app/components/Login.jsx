@@ -14,7 +14,7 @@ class Login extends React.Component{
 		let userName = $.cookie('userName');
         // if loggedIn redirect to home
 		if(_id && userName)
-			hashHistory.push('/home');
+			hashHistory.push('/');
 
 		/* If no users exist, register */
 		axios.get('/login').then( ()=>{}).catch( ()=>{
@@ -33,7 +33,7 @@ class Login extends React.Component{
 			const user = response.data;
 			this.props.dispatch(actions.logIn(user));
 			this.props.dispatch(actions.setAlert(true, "logged in", "success"));
-			hashHistory.push('/home');
+			hashHistory.push('/');
 		}).catch( (error)=>{
 			/* The request was made, but the server responded with a status code that falls out of the range of 2xx */
 			if( error.response.data.errors ){

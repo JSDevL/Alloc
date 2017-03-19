@@ -9,7 +9,7 @@ class Register extends React.Component{
 	componentWillMount(){
 		/* If user exist, login */
 		axios.get('/login').then( ()=>{
-			hashHistory.push('/');
+			hashHistory.push('/login');
 			this.props.dispatch(actions.setAlert(true, "User for app found. Please login", "success"));
 		});
 	}
@@ -23,7 +23,7 @@ class Register extends React.Component{
 			confirmPassword: this.refs.confirmPassword.value,
 		}).then( ()=>{
             /* Successfully registered */
-			hashHistory.push('/');
+			hashHistory.push('/login');
 			this.props.dispatch(actions.setAlert(true, "Successfully Registered", "success"));
 		}).catch( (error)=>{
 			/* The request was made, but the server responded with a status code that falls out of the range of 2xx */

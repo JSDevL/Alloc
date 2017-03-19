@@ -18,19 +18,23 @@ class NavigationBar extends React.Component{
 				_id: _id,
 				userName: userName
 			}));
-		else
-			hashHistory.push('/');
+		else {
+			this.props.dispatch(actions.setAlert(true, "Not loggedIn", "danger"));
+			hashHistory.push('/login');
+		}
 	}
 
-	logOut(){
+	logOut(e){
+		e.preventDefault();
+
         /* remove token from cached cookie */
 		$.removeCookie('token', { path: '/' });
 		$.removeCookie('_id', { path: '/' });
 		$.removeCookie('userName', { path: '/' });
-        /* Successfully logged out */
+
 		this.props.dispatch(actions.logOut());
 		this.props.dispatch(actions.setAlert(true, "Successfully logged out", "success"));
-		hashHistory.push('/');
+		hashHistory.push('/login');
 	}
 
 	changePassword(){
@@ -75,7 +79,7 @@ class NavigationBar extends React.Component{
 
 				<ul className="nav navbar-nav navbar-right">
 					<li><a href="#" data-toggle="modal" data-target="#change-pwd-modal">Change Password</a></li>
-					<li><Link to="/" onClick={()=>this.logOut()}>Logout</Link></li>
+					<li><a href="#" onClick={(e)=>this.logOut(e)}>Logout</a></li>
 				</ul>
 			</div>
 

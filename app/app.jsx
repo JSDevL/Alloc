@@ -10,7 +10,7 @@ require('style!css!sass!./styles/App.scss');
 
 /*  app children components   */
 /* Alert plugin */
-const Alert = require('Alert');
+const Alert = require('plugins/Alert');
 /* Home page */
 const Home = require('Home');
 /* Login page */
@@ -45,7 +45,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={hashHistory}>
             <Route path="/" component={App}>
-            
+
                 <IndexRoute component={Home}></IndexRoute>
 
                 <Route path="login" component={Login}></Route>
