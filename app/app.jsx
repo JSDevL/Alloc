@@ -21,6 +21,8 @@ const Register = require('Register');
 const Batch = require('Batch');
 const BatchInputs = require('batch/BatchInputs');
 const BatchDetails = require('batch/BatchDetails');
+/* Session Page */
+const Session = require('Session');
 
 
 /*  store   */
@@ -57,6 +59,7 @@ ReactDOM.render(
                     <Route path="details" component={BatchDetails}></Route>
                 </Route>
 
+                <Route path="sessions" component={Session}></Route>
             </Route>
         </Router>
     </Provider>,
