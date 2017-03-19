@@ -3,6 +3,10 @@ const axios = require('axios');
 const {connect} = require('react-redux');
 
 
+/* all child components */
+const Conflicts = require('./Conflicts.jsx');
+
+
 /* all actions needed */
 const actions = require('alertActions');
 Object.assign(actions, require('batchesActions'));
@@ -43,12 +47,9 @@ class Levels extends React.Component{
 	removeCombination(e, combination){
 		e.preventDefault();
 		/* remove all batches belonging to combination */
-		_.each(this.combinations[combination], (batch)=>{
-			axios.delete(`/batches/${batch._id}`).then( (response)=>{
-				const filteredBatches = _.reject(this.props.batches, (batch)=>{ return batch._id.toString() === response.data.toString();});
-				this.props.dispatch(actions.getBatches(filteredBatches));
-				this.props.dispatch(actions.setAlert(true, "Removed Combination", "success"));
-			});
+		axios.delete(`/batches/${this.combinations[combination][0]._id}`).then( (response)=>{
+			this.props.dispatch(actions.getBatches(response.data));
+			this.props.dispatch(actions.setAlert(true, "Removed Combination", "success"));
 		});
 	}
 
@@ -92,7 +93,7 @@ class Levels extends React.Component{
 								_.each(this.combinations, (batches, combination)=>{
 									rows.push( <tr key={combination}>
 										<td>{combination}</td>
-										<td>conflicts</td>
+										<td><Conflicts combinations={this.combinations} combination={combination}/></td>
 										<td><button className="btn" onClick={ (e)=>this.removeCombination(e, combination) }>Remove Combination</button></td>
 									</tr> );
 								});
