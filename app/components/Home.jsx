@@ -21,10 +21,14 @@ class Home extends React.Component{
 			axios.get(`/stages/${$.cookie('userName')}`).then( (response)=>{
 				this.props.dispatch(actions.getStages(response.data));
 			}).catch( (error)=>{
-				if(error.response.data.message === "Need to login"){
+				if(error.response && error.response.data.message === "Need to login"){
+					/* if not loggedIn */
 					this.props.dispatch(actions.setAlert(true, "Not logged In", "danger"));
-				} else {
+				} else if (error.response){
 					this.props.dispatch(actions.setAlert(true, "Cannot read user stages", "danger"));
+				} else {
+					/* if not an axios XHR error */
+					throw error;
 				}
 			});
 		}
@@ -56,7 +60,7 @@ class Home extends React.Component{
 											</div>
 										</td>
 
-										<td className={this.props.stages.prereqs.subStages.building.state===true?`building done`:`building`}>
+										<td className={this.props.stages.prereqs.building.state===true?`building done`:`building`}>
 											<div>
 												<h2><span className="glyphicon glyphicon-ok-sign"></span> Building Details</h2>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
@@ -64,9 +68,9 @@ class Home extends React.Component{
 											</div>
 										</td>
 
-										<td className={this.props.stages.prereqs.subStages.combinations.state===true?`combi-and-sessions done`:`combi-and-sessions`}>
+										<td className={this.props.stages.prereqs.combinations.state===true?`combi-and-sessions done`:`combi-and-sessions`}>
 											<div>
-												<h2><span className="glyphicon glyphicon-ok-sign"></span> Combination Details</h2>
+												<h2><span className="glyphicon glyphicon-ok-sign"></span> Combination batches Details</h2>
 												<div className="progress">
 													<div className="progress-bar progress-bar-default" style={{width: 50+'%'}}>
 														<p>Details</p>
@@ -76,11 +80,11 @@ class Home extends React.Component{
 													</div>
 												</div>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
-												<a className="btn btn-success" href="#/combinations">Enter track</a>
+												<a className="btn btn-success" href="#/batches">Enter track</a>
 											</div>
 										</td>
 
-										<td className={this.props.stages.prereqs.subStages.sessions.state===true?`combi-and-sessions done`:`combi-and-sessions`}>
+										<td className={this.props.stages.prereqs.sessions.state===true?`combi-and-sessions done`:`combi-and-sessions`}>
 											<div>
 												<h2><span className="glyphicon glyphicon-ok-sign"></span> Session Details</h2>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque ex sit amet nisl sagittis, et semper mi lobortis. Suspendisse interdum, augue vel congue dapibus, ante sem dapibus leo, eget dignissim tortor eros at libero. Praesent cursus mattis vestibulum. Nullam felis ligula, consequat a vestibulum vel, ullamcorper nec diam.</p>
@@ -96,7 +100,7 @@ class Home extends React.Component{
 											</div>
 										</td>
 
-										<td className={this.props.stages.prereqs.subStages.building.state===true?`building done`:`building`}>
+										<td className={this.props.stages.prereqs.building.state===true?`building done`:`building`}>
 										</td>
 
 										<td colSpan="2" className={this.props.stages.combinationsToSessions.state===true?`combi-and-sessions done`:`combi-and-sessions`}>
@@ -144,6 +148,12 @@ class Home extends React.Component{
 		</div>;
 	}
 }
+
+Home.propTypes = {
+	stages: React.PropTypes.object,
+	alert: React.PropTypes.object,
+	dispatch: React.PropTypes.func
+};
 
 module.exports = connect((state)=>{
 	return {
