@@ -25,7 +25,6 @@ const BatchInputs = require('batch/BatchInputs');
 /*  store   */
 const store = require('store').configure();
 store.subscribe(()=>{
-    console.log(store.getState());
 });
 
 

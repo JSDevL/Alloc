@@ -107,6 +107,10 @@ body{
     background-color: #5cb85c;
 }
 
+.form-inline > * {
+    margin:15px 3px !important;
+}
+
 @import 'Alert';
 @import 'Home';
 @import 'Login';

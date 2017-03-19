@@ -5,6 +5,9 @@ const React = require('react');
 const NavigationBar = require('plugins/NavigationBar');
 const Jumbotron = require('plugins/Jumbotron');
 
+/*  all child components */
+const Track = require('plugins/Jumbotron');
+
 class Batch extends React.Component{
 	render(){
 		return (
