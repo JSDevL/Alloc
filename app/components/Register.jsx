@@ -2,8 +2,11 @@ const React = require('react');
 const axios = require('axios');
 const {connect} = require('react-redux');
 const {hashHistory} = require('react-router');
+
+
 /* all actions needed */
 const actions = require('alertActions');
+
 
 class Register extends React.Component{
 	componentWillMount(){

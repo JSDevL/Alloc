@@ -17,6 +17,8 @@ const Home = require('Home');
 const Login = require('Login');
 /* Register page */
 const Register = require('Register');
+/* Campus Page */
+const Campus = require('Campus');
 /* Batch Page */
 const Batch = require('Batch');
 const BatchInputs = require('batch/BatchInputs');
@@ -54,6 +56,8 @@ ReactDOM.render(
                 <Route path="login" component={Login}></Route>
 
                 <Route path="register" component={Register}></Route>
+
+                <Route path="campus" component={Campus}></Route>
 
                 <Route path="batches" component={Batch}>
                     <IndexRoute component={BatchInputs}></IndexRoute>
