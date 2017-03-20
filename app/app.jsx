@@ -23,7 +23,8 @@ const BatchInputs = require('batch/BatchInputs');
 const BatchDetails = require('batch/BatchDetails');
 /* Session Page */
 const Session = require('Session');
-
+/* Session Allotment */
+const SessionAllotment = require('SessionAllotment');
 
 /*  store   */
 const store = require('store').configure();
@@ -60,6 +61,8 @@ ReactDOM.render(
                 </Route>
 
                 <Route path="sessions" component={Session}></Route>
+
+                <Route path="session-allotment" component={SessionAllotment}></Route>
             </Route>
         </Router>
     </Provider>,
