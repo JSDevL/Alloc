@@ -1,4 +1,6 @@
 const React = require('react');
+const axios = require('axios');
+const {connect} = require('react-redux');
 
 
 /*  all pluggable components   */
@@ -6,23 +8,47 @@ const NavigationBar = require('plugins/NavigationBar');
 const Jumbotron = require('plugins/Jumbotron');
 
 
+/* all actions needed */
+const actions = require('alertActions');
+Object.assign(actions, require('sessionsActions'));
+Object.assign(actions, require('blocksActions'));
+
+
 /* all child components */
-const Session = require('./allocation/Session.jsx');
+// const Session = require('./allocation/Session.jsx');
 
 
 class Allocation extends React.Component{
 	componentWillMount(){
-		if(_.isEmpty(this.props.batches)){
-			/* get initial Batches from DB */
-			axios.get(`/batches`).then( (response)=>{
-				this.props.dispatch(actions.getBatches(response.data));
-				this.props.dispatch(actions.setAlert(true, "Loaded Batches", "success"));
+		if(_.isEmpty(this.props.sessions)){
+			/* get initial sessions from DB */
+			axios.get(`/sessions`).then( (response)=>{
+				this.props.dispatch(actions.getSessions(response.data));
+				this.props.dispatch(actions.setAlert(true, "Loaded Sessions", "success"));
 			}).catch( (error)=>{
 				if(error.response && error.response.data.message === "Need to login"){
 					/* if not loggedIn */
 					this.props.dispatch(actions.setAlert(true, "Not logged In", "danger"));
 				} else if (error.response){
-					this.props.dispatch(actions.setAlert(true, "Cannot read batches", "danger"));
+					this.props.dispatch(actions.setAlert(true, "Cannot read sessions", "danger"));
+				} else {
+					/* if not an axios XHR error */
+					throw error;
+				}
+			});
+		}
+
+		if(_.isEmpty(this.props.blocks)){
+			/* get initial blocks from DB */
+			axios.get(`/blocks`).then( (response)=>{
+				this.props.dispatch(actions.getBlocks(response.data));
+				this.props.dispatch(actions.setAlert(true, "Loaded blocks", "success"));
+			}).catch( (error)=>{
+				if(error.response && error.response.data.message === "Need to login"){
+					/* if not loggedIn */
+					this.props.dispatch(actions.setAlert(true, "Not logged In", "danger"));
+				} else if (error.response){
+					this.props.dispatch(actions.setAlert(true, "Cannot read blocks", "danger"));
 				} else {
 					/* if not an axios XHR error */
 					throw error;
@@ -42,16 +68,23 @@ class Allocation extends React.Component{
 				</Jumbotron>
 				
 				<div className="container">
-					<Session/>
 				</div>
             </div>
 		);
 	}
 }
 
+Allocation.propTypes = {
+	sessions: React.PropTypes.array,
+	blocks: React.PropTypes.array,
+	alert: React.PropTypes.object,
+	dispatch: React.PropTypes.func
+};
+
 module.exports = connect((state)=>{
 	return {
 		sessions: state.sessions,
+		blocks: state.blocks,
 		alert: state.alert
 	};
 })(Allocation);
