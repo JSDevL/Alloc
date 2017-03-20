@@ -15,14 +15,14 @@ Object.assign(actions, require('blocksActions'));
 
 
 /* all child components */
-// const Session = require('./allocation/Session.jsx');
+const Session = require('./allocation/Session.jsx');
 
 
 class Allocation extends React.Component{
 	componentWillMount(){
 		if(_.isEmpty(this.props.sessions)){
 			/* get initial sessions from DB */
-			axios.get(`/sessions`).then( (response)=>{
+			axios.get(`/sessions/populated`).then( (response)=>{
 				this.props.dispatch(actions.getSessions(response.data));
 				this.props.dispatch(actions.setAlert(true, "Loaded Sessions", "success"));
 			}).catch( (error)=>{
@@ -68,6 +68,22 @@ class Allocation extends React.Component{
 				</Jumbotron>
 				
 				<div className="container">
+					<ul className="nav nav-pills">
+						{	( !_.isEmpty(this.props.sessions) && !_.isEmpty(this.props.blocks) ) &&
+							this.props.sessions.map( (session)=>{
+								return <li key={"pill"+session._id} role="presentation"><a href={`#${session._id}`} data-toggle="pill">{session.name}</a></li>;
+							})
+						}
+					</ul>
+					<div className="tab-content">
+						{	( !_.isEmpty(this.props.sessions) && !_.isEmpty(this.props.blocks) ) &&
+							this.props.sessions.map( (session)=>{
+								return <div key={"body"+session._id} role="tabpanel" className="tab-pane" id={session._id}>
+									<Session session={session}/>
+								</div>;
+							})
+						}
+					</div>
 				</div>
             </div>
 		);

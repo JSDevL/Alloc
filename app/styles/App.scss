@@ -111,6 +111,29 @@ body{
     margin:15px 3px !important;
 }
 
+.row.panel-container{
+	margin: 0px;
+	
+	.panel{
+		padding: 0px;
+	}
+}
+
+.row.combi-well{
+	margin: 0px;
+}
+
+.room-well{
+	a{
+		width: 100%;
+	}
+}
+
+.well{
+	display: inline-block;
+    width: 100%;
+}
+
 ul.nav{
 	li.active{
 		a.greened{
