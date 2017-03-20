@@ -78,7 +78,7 @@ class Blocks extends React.Component{
 
 				<hr/>
 
-				{
+				{	!_.isEmpty(this.props.blocks) &&
 					this.props.blocks.map( (block)=>{
 						return <div key={block._id} className="blocks-panel panel-group" role="tablist">
 							<div className="panel panel-default">

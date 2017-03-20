@@ -112,7 +112,7 @@ class Rooms extends React.Component{
 
 				{
 					rooms.map( (room)=>{
-						return <table className="table table-bordered">
+						return <table key={room._id} className="table table-bordered">
 							<thead>
 								<tr>
 									<th>Id</th>
@@ -122,7 +122,7 @@ class Rooms extends React.Component{
 								</tr>
 							</thead>
 							<tbody className="rooms">
-								<tr key={room._id}>
+								<tr>
 									<td>{room._id}</td>
 									<td>{room.number}</td>
 									<td>{room.benches}</td>
