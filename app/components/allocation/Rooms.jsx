@@ -8,27 +8,6 @@ const actions = require('alertActions');
 
 
 class Rooms extends React.Component{
-	// getBatch(side, item, from, to){
-	// 	const batch = JSON.parse(item.attr('data-batch'));
-
-	// 	if( from.hasClass('room-well') ){
-	// 		axios.put(`/alloc/rooms/${batch.room}/batches`, {
-	// 			batch: batch
-	// 		}).then( (response)=>{
-	// 			this.props.dispatch(actions.setAlert(true, `batch assigned`, "success"));
-	// 		});
-	// 	}
-
-	// 	batch.room = this.props.room._id;
-	// 	batch.side = side;
-	// 	item.attr('data-batch', JSON.stringify(batch));
-
-	// 	axios.post(`/alloc/rooms/${this.props.room._id}`, {
-	// 		batch: batch
-	// 	}).then( (response)=>{
-	// 		this.props.dispatch(actions.setAlert(true, `batch assigned`, "success"));
-	// 	});
-	// }
 	constructor(props){
 		super(props);
 
@@ -61,15 +40,9 @@ class Rooms extends React.Component{
 	}
 
 	componentDidMount(){
-		const component = this;
+		
 
-		$(this.refs.leftWell).on("sortreceive", function( event, ui ){
-			component.getBatch("left", ui.item, ui.sender, $(this));
-		});
-
-		$(this.refs.rightWell).on("sortreceive", function( event, ui ){
-			component.getBatch("right", ui.item, ui.sender, $(this));
-		});
+		
 	}
 
 	componentDidUpdate(){
@@ -78,7 +51,21 @@ class Rooms extends React.Component{
 			$(`#combi-items-container, #${room._id}-left, #${room._id}-right`).sortable({
 				connectWith: ".connectedSortable"
 			}).disableSelection();
+
+			const component = this;
+			$(`#${room._id}-left`).on("sortreceive", function( event, ui ){
+				// component.getBatch("left", ui.item, ui.sender, $(this));
+				console.log($(ui.item).data("foo"));
+			});
+
+			$(`#${room._id}-right`).on("sortreceive", function( event, ui ){
+				// component.getBatch("right", ui.item, ui.sender, $(this));
+			});
 		});
+	}
+
+	getBatch(side, item, from, to){
+		console.log(item);
 	}
 
 	render(){
@@ -93,11 +80,11 @@ class Rooms extends React.Component{
 						<div className="panel-body">
 							<div className="row">
 								<div className="col-xs-6">
-									<div id={`${room._id}-left`} className="well room-well left connectedSortable" ref="leftWell">
+									<div id={`${room._id}-left`} className="well room-well left connectedSortable">
 									</div>
 								</div>
 								<div className="col-xs-6">
-									<div id={`${room._id}-right`} className="well room-well right connectedSortable" ref="rightWell">
+									<div id={`${room._id}-right`} className="well room-well right connectedSortable">
 									</div>
 								</div>
 							</div>
