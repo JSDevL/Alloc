@@ -68,7 +68,7 @@ class Allocation extends React.Component{
 				</Jumbotron>
 				
 				<div className="container">
-					<ul className="nav nav-pills">
+					<ul className="nav nav-pills nav-justified">
 						{	( !_.isEmpty(this.props.sessions) && !_.isEmpty(this.props.blocks) ) &&
 							this.props.sessions.map( (session)=>{
 								return <li key={"pill"+session._id} role="presentation"><a href={`#${session._id}`} data-toggle="pill">{session.name}</a></li>;

@@ -38,7 +38,7 @@ class BatchInputs extends React.Component{
 		return <div>
 			<Track status={[1, 0]}/>
 
-			{	!_.isEmpty(this.props.batches) &&
+			{
 				<div>
 					<GradLevels gradLevel="UG"/>
 					<hr />
